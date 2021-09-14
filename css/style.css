@@ -16,6 +16,10 @@ h1 {
   color: #feb32b;
 }
 
+input {
+  color: black;
+}
+
 .content-wrapper > * {
   margin: 10px 20px;
 }
