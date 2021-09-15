@@ -12,25 +12,29 @@
       <h1>Cryck</h1>
       <div id="welcome">What challenge should you do next?</div>
       <input id="username" type="text" placeholder="Username" />
-      <table id="challs">
-        <tr>
-          <th>Challenge</th>
-          <th>Category</th>
-          <th>Points</th>
-          <th>Solves</th>
-        </tr>
-        <tr>
-          <td>Quick Maths</td>
-          <td>Maths</td>
-          <td>⭐ 20</td>
-          <td>1000</td>
-        </tr>
-        <tr>
-          <td>Hack NASA</td>
-          <td>Misc</td>
-          <td>⭐ 150</td>
-          <td>100</td>
-        </tr>
+      <table id="challs-table">
+        <thead>
+          <tr>
+            <th>Challenge</th>
+            <th>Category</th>
+            <th>Points</th>
+            <th>Solves</th>
+          </tr>
+        </thead>
+        <tbody id="challs-table-content">
+          <tr>
+            <td>Quick Maths</td>
+            <td>Maths</td>
+            <td>⭐ 20</td>
+            <td>1000</td>
+          </tr>
+          <tr>
+            <td>Hack NASA</td>
+            <td>Misc</td>
+            <td>⭐ 150</td>
+            <td>100</td>
+          </tr>
+        </tbody>
       </table>
     </div>
     <script src="js/script.js"></script>

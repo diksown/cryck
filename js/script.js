@@ -28,8 +28,50 @@ async function diffSolves(user1, user2) {
   console.log(xSolved1);
 }
 
+function clearTable() {
+  document.getElementById("challs-table-content").innerHTML = "";
+}
+
+function addChallRow(chall) {
+  let table = document.getElementById("challs-table");
+  let row = table.insertRow();
+
+  let challName = row.insertCell();
+  let category = row.insertCell();
+  let points = row.insertCell();
+  let solves = row.insertCell();
+
+  challName.innerHTML = chall.name;
+  category.innerHTML = chall.category;
+  points.innerHTML = "⭐ " + chall.points;
+  solves.innerHTML = "?";
+}
+
 function show(prom) {
   prom.then((data) => console.log(data));
 }
 
-diffSolves("hellman", "diksown");
+// true ~99.97% of the time
+let allChallenges = getSolved("hellman");
+
+async function test() {
+  let RsaChall = {
+    name: "Break RSA",
+    category: "RSA",
+    points: "666",
+  };
+
+  let EccChall = {
+    name: "Flat circle go brr",
+    category: "ECC",
+    points: "0",
+  };
+  await new Promise((r) => setTimeout(r, 1000));
+  clearTable();
+  await new Promise((r) => setTimeout(r, 1000));
+  addChallRow(RsaChall);
+  await new Promise((r) => setTimeout(r, 1000));
+  addChallRow(EccChall);
+}
+
+//test();

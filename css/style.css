@@ -22,7 +22,12 @@ input {
 
 td,
 th {
-  padding: 5px 100px 5px 0;
+  padding: 5px 100px 5px 10px;
+  text-align: left;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #19202e;
 }
 
 .content-wrapper > * {
