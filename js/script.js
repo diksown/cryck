@@ -33,7 +33,7 @@ function clearTable() {
 }
 
 function addChallRow(chall) {
-  let table = document.getElementById("challs-table");
+  let table = document.getElementById("challs-table-content");
   let row = table.insertRow();
 
   let challName = row.insertCell();
@@ -51,10 +51,25 @@ function show(prom) {
   prom.then((data) => console.log(data));
 }
 
-// true ~99.97% of the time
-let allChallenges = getSolved("hellman");
+async function displayChallList(challs) {
+  clearTable();
+  challs = challs.sort((a, b) => {
+    diff = parseInt(a.points) - parseInt(b.points);
+    return diff;
+  });
+  for (let chall of challs) {
+    addChallRow(chall);
+  }
+}
+
+async function displayChallsFromUser(username) {
+  challList = await getSolved(username);
+  console.log(challList);
+  displayChallList(challList);
+}
 
 async function test() {
+  /*
   let RsaChall = {
     name: "Break RSA",
     category: "RSA",
@@ -72,6 +87,7 @@ async function test() {
   addChallRow(RsaChall);
   await new Promise((r) => setTimeout(r, 1000));
   addChallRow(EccChall);
+  */
 }
 
-//test();
+displayChallsFromUser("diksown");
