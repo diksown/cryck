@@ -20,6 +20,11 @@ input {
   color: black;
 }
 
+td,
+th {
+  padding: 5px 100px 5px 0;
+}
+
 .content-wrapper > * {
   margin: 10px 20px;
 }
