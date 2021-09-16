@@ -49,3 +49,10 @@ tbody tr:nth-child(odd) {
   font-size: 30px;
   color: var(--highlight-fade-color);
 }
+
+.credit {
+  font-size: 15px;
+  position: absolute;
+  top: 5px;
+  right: 20px;
+}
