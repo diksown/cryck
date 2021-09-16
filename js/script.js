@@ -18,14 +18,17 @@ async function diffSolves(user1, user2) {
   solvedNames1 = solvedChalls1.map((data) => data.name);
   solvedNames2 = solvedChalls2.map((data) => data.name);
 
-  // solved by only user 1
+  // solved only by user 1
   xSolved1 = solvedChalls1.filter(
     (chall) => !solvedNames2.includes(chall.name)
   );
+  /* 
+  // solved only by user 2
   xSolved2 = solvedChalls2.filter(
     (chall) => !solvedNames1.includes(chall.name)
   );
-  console.log(xSolved1);
+  */
+  return xSolved1;
 }
 
 function clearTable() {
@@ -47,10 +50,6 @@ function addChallRow(chall) {
   solves.innerHTML = "?";
 }
 
-function show(prom) {
-  prom.then((data) => console.log(data));
-}
-
 async function displayChallList(challs) {
   clearTable();
   challs = challs.sort((a, b) => {
@@ -64,30 +63,12 @@ async function displayChallList(challs) {
 
 async function displayChallsFromUser(username) {
   challList = await getSolved(username);
-  console.log(challList);
   displayChallList(challList);
 }
 
-async function test() {
-  /*
-  let RsaChall = {
-    name: "Break RSA",
-    category: "RSA",
-    points: "666",
-  };
-
-  let EccChall = {
-    name: "Flat circle go brr",
-    category: "ECC",
-    points: "0",
-  };
-  await new Promise((r) => setTimeout(r, 1000));
-  clearTable();
-  await new Promise((r) => setTimeout(r, 1000));
-  addChallRow(RsaChall);
-  await new Promise((r) => setTimeout(r, 1000));
-  addChallRow(EccChall);
-  */
+async function displayExclusiveChalls(user1, user2) {
+  challList = await diffSolves(user1, user2);
+  displayChallList(challList);
 }
 
-displayChallsFromUser("diksown");
+displayExclusiveChalls("hellman", "diksown");
