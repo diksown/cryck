@@ -1,5 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
 
+:root {
+  --highlight-color: #feb32b;
+  --highlight-fade-color: #fff1d6;
+  --bg-color: #0c1221;
+  --bg-fade-color: #19202e;
+}
+
 * {
   color: rgb(249, 234, 225);
   font-family: Inter;
@@ -7,17 +14,21 @@
 }
 
 body {
-  background-color: #0c1221;
+  margin: 0 !important;
+  padding: 0 !important;
+  background-color: var(--bg-color);
   font-size: 20px;
 }
 
 h1 {
+  margin: 100px 100px;
   font-size: 50px;
-  color: #feb32b;
+  color: var(--highlight-color);
 }
 
 input {
-  color: black;
+  font-size: 25px;
+  color: var(--bg-color);
 }
 
 td,
@@ -27,9 +38,14 @@ th {
 }
 
 tbody tr:nth-child(odd) {
-  background-color: #19202e;
+  background-color: var(--bg-fade-color);
 }
 
 .content-wrapper > * {
   margin: 10px 20px;
+}
+
+.description {
+  font-size: 30px;
+  color: var(--highlight-fade-color);
 }

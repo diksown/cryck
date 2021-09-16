@@ -71,4 +71,13 @@ async function displayExclusiveChalls(user1, user2) {
   displayChallList(challList);
 }
 
-displayExclusiveChalls("hellman", "diksown");
+let userInput = document.getElementById("username-input");
+
+userInput.addEventListener("keyup", (event) => {
+  if (event.key === "Enter") {
+    let user = document.getElementById("username-input").value;
+    // workaround for now, but correct 99.98% of the time
+    let userAllChalls = "hellman";
+    displayExclusiveChalls(userAllChalls, user);
+  }
+});
