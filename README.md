@@ -13,3 +13,7 @@ Currently, it display a list of the challenges a user didn't solve yet, sorted i
 Simply go to [dikson.xyz/cryck](https://dikson.xyz/cryck/), search by username and press enter.
 
 ![](img/cryck.gif)
+
+## Feedback
+
+This tool is in development. If you have feedback to give, feel free to submit an issue.
