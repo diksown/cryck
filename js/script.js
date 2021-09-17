@@ -1,15 +1,8 @@
 // return a promise of info for a particular user
 async function getInfo(username) {
   let baseUrl = "https://cryptohack.org/api/user/";
-  //const response = await fetch(baseUrl + username);
-  //return await response.json();
-  
-  // Quick and dirty workaround to bypass CORS. Delete this later.
-  baseUrl = "https://api.allorigins.win/get?url=" + baseUrl;
-  const response = await fetch(baseUrl + username);
-  respjson = await response.json();
-  respjson = JSON.parse(respjson.contents);
-  return await respjson;
+  const response = await fetch(baseUrl + username + "/");
+  return await response.json();
 }
 
 // return a promise of solved challenges
