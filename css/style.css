@@ -31,10 +31,23 @@ input {
   color: var(--bg-color);
 }
 
+table {
+  border-spacing: 0px;
+}
+
 td,
 th {
-  padding: 5px 70px 5px 10px;
+  font-size: 18px;
+  padding: 10px 10px 10px 30px;
   text-align: left;
+}
+
+th:nth-child(1) {
+  padding-left: 10px;
+}
+
+td:nth-child(1) {
+  padding-left: 10px;
 }
 
 tbody tr:nth-child(odd) {
@@ -42,11 +55,11 @@ tbody tr:nth-child(odd) {
 }
 
 @media only screen and (max-width: 800px) {
-  thead tr th:nth-child(2) {
+  th:nth-child(2) {
     display: none;
   }
 
-  tbody tr td:nth-child(2) {
+  td:nth-child(2) {
     display: none;
   }
 }
