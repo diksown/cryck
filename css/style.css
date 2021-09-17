@@ -54,6 +54,7 @@ tbody tr:nth-child(odd) {
   background-color: var(--bg-fade-color);
 }
 
+/*
 @media only screen and (max-width: 800px) {
   th:nth-child(2) {
     display: none;
@@ -63,6 +64,7 @@ tbody tr:nth-child(odd) {
     display: none;
   }
 }
+*/
 
 .content-wrapper > * {
   margin: 10px 20px;
