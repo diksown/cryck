@@ -33,12 +33,22 @@ input {
 
 td,
 th {
-  padding: 5px 100px 5px 10px;
+  padding: 5px 70px 5px 10px;
   text-align: left;
 }
 
 tbody tr:nth-child(odd) {
   background-color: var(--bg-fade-color);
+}
+
+@media only screen and (max-width: 800px) {
+  thead tr th:nth-child(2) {
+    display: none;
+  }
+
+  tbody tr td:nth-child(2) {
+    display: none;
+  }
 }
 
 .content-wrapper > * {

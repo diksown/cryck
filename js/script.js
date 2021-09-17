@@ -49,12 +49,12 @@ function addChallRow(chall) {
   let challName = row.insertCell();
   let category = row.insertCell();
   let points = row.insertCell();
-  let solves = row.insertCell();
+  //let solves = row.insertCell();
 
   challName.innerHTML = chall.name;
   category.innerHTML = chall.category;
   points.innerHTML = "⭐ " + chall.points;
-  solves.innerHTML = "?";
+  //solves.innerHTML = "?"; // uncomment after implemented
 }
 
 async function displayChallList(challs) {
