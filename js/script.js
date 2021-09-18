@@ -31,6 +31,31 @@ async function diffSolves(user1, user2) {
   return xSolved1;
 }
 
+function createChallNameLink(chall) {
+  let baseUrl = 'https://cryptohack.org/challenges/';
+
+  let categoryLinkMap = {
+    'Introduction'      : 'introduction',
+    'General'           : 'general',
+    'Mathematics'       : 'maths',
+    'Symmetric Ciphers' : 'aes',
+    'RSA'               : 'rsa',
+    'Diffie-Hellman'    : 'diffie-hellman',
+    'Elliptic Curves'   : 'ecc',
+    'Hash Functions'    : 'hashes',
+    'Crypto on the Web' : 'web',
+    'Misc'              : 'misc'
+  }
+
+  let a = document.createElement('a');
+  var text = document.createTextNode(chall.name);
+  a.append(text);
+  a.target = '_blank';
+  a.href = baseUrl + categoryLinkMap[chall.category];
+
+  return a;
+}
+
 function clearTable() {
   document.getElementById("challs-table-content").innerHTML = "";
 }
@@ -44,7 +69,8 @@ function addChallRow(chall) {
   let points = row.insertCell();
   //let solves = row.insertCell();
 
-  challName.innerHTML = chall.name;
+  let a = createChallNameLink(chall);
+  challName.appendChild(a);
   category.innerHTML = chall.category;
   points.innerHTML = "⭐ " + chall.points;
   //solves.innerHTML = "?"; // uncomment after implemented
