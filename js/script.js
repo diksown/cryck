@@ -12,9 +12,18 @@ async function getSolved(username) {
 }
 
 // return challenges that were done exclusively by one user
-async function diffSolves(user1, user2) {
+async function diffSolves(user1, user2, index) {
   solvedChalls1 = await getSolved(user1);
+  if (user2 == '') {
+    user2 = 0;
+  }
   solvedChalls2 = await getSolved(user2);
+  
+  if (!solvedChalls2) {
+    clearTable(index);
+    return;
+  }
+
   solvedNames1 = solvedChalls1.map((data) => data.name);
   solvedNames2 = solvedChalls2.map((data) => data.name);
 
@@ -56,12 +65,12 @@ function createChallNameLink(chall) {
   return a;
 }
 
-function clearTable() {
-  document.getElementById("challs-table-content").innerHTML = "";
+function clearTable(index) {
+  document.getElementById("challs-table-content" + index).innerHTML = "";
 }
 
-function addChallRow(chall) {
-  let table = document.getElementById("challs-table-content");
+function addChallRow(chall, index) {
+  let table = document.getElementById("challs-table-content" + index);
   let row = table.insertRow();
 
   let challName = row.insertCell();
@@ -76,34 +85,50 @@ function addChallRow(chall) {
   //solves.innerHTML = "?"; // uncomment after implemented
 }
 
-async function displayChallList(challs) {
-  clearTable();
-  challs = challs.sort((a, b) => {
-    diff = parseInt(a.points) - parseInt(b.points);
-    return diff;
-  });
-  for (let chall of challs) {
-    addChallRow(chall);
+async function displayChallList(challs, index) {
+  if (challs) {
+    clearTable(index);
+    challs = challs.sort((a, b) => {
+      diff = parseInt(a.points) - parseInt(b.points);
+      return diff;
+    });
+    for (let chall of challs) {
+      addChallRow(chall, index);
+    }
   }
 }
 
-async function displayChallsFromUser(username) {
+async function displayChallsFromUser(username, index) {
   challList = await getSolved(username);
-  displayChallList(challList);
+  displayChallList(challList, index);
 }
 
-async function displayExclusiveChalls(user1, user2) {
-  challList = await diffSolves(user1, user2);
-  displayChallList(challList);
+async function displayExclusiveChalls(user1, user2, index) {
+  challList = await diffSolves(user1, user2, index);
+  displayChallList(challList, index);
 }
 
-let userInput = document.getElementById("username-input");
+let userInput1 = document.getElementById("username-input1");
+let userInput2 = document.getElementById("username-input2");
 
-userInput.addEventListener("keyup", (event) => {
-  if (event.key === "Enter") {
-    let user = document.getElementById("username-input").value;
-    // workaround for now, but correct 99.98% of the time
-    let userAllChalls = "hellman";
-    displayExclusiveChalls(userAllChalls, user);
-  }
-});
+// userInput1.addEventListener("keyup", (event) => {
+//   if (event.key === "Enter") {
+//     let user = document.getElementById("username-input1").value;
+//     document.getElementById('username-input1').style.border = 'none';
+//     // workaround for now, but correct 99.98% of the time
+//     let userAllChalls = "hellman";
+//     displayExclusiveChalls(userAllChalls, user);
+//   }
+// });
+
+userInput1.addEventListener("keyup", function() { onUserSubmit(1) });
+userInput2.addEventListener("keyup", function() { onUserSubmit(2) });
+
+async function onUserSubmit(index) {
+  let id = 'username-input' + index;
+
+  let user = document.getElementById(id).value;
+  // workaround for now, but correct 99.98% of the time
+  let userAllChalls = "hellman";
+  displayExclusiveChalls(userAllChalls, user, index);
+}
