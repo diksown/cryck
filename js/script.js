@@ -15,6 +15,12 @@ async function getSolved(username) {
 async function diffSolves(user1, user2) {
   solvedChalls1 = await getSolved(user1);
   solvedChalls2 = await getSolved(user2);
+
+  if (!solvedChalls2) {
+    document.getElementById('username-input').style.border = '2px solid red';
+    return;
+  }
+
   solvedNames1 = solvedChalls1.map((data) => data.name);
   solvedNames2 = solvedChalls2.map((data) => data.name);
 
@@ -77,13 +83,15 @@ function addChallRow(chall) {
 }
 
 async function displayChallList(challs) {
-  clearTable();
-  challs = challs.sort((a, b) => {
-    diff = parseInt(a.points) - parseInt(b.points);
-    return diff;
-  });
-  for (let chall of challs) {
-    addChallRow(chall);
+  if (challs) {
+    clearTable();
+    challs = challs.sort((a, b) => {
+      diff = parseInt(a.points) - parseInt(b.points);
+      return diff;
+    });
+    for (let chall of challs) {
+      addChallRow(chall);
+    }
   }
 }
 
@@ -102,6 +110,7 @@ let userInput = document.getElementById("username-input");
 userInput.addEventListener("keyup", (event) => {
   if (event.key === "Enter") {
     let user = document.getElementById("username-input").value;
+    document.getElementById('username-input').style.border = 'none';
     // workaround for now, but correct 99.98% of the time
     let userAllChalls = "hellman";
     displayExclusiveChalls(userAllChalls, user);

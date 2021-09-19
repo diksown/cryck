@@ -81,3 +81,8 @@ tbody tr:nth-child(odd) {
   top: 5px;
   right: 20px;
 }
+
+#username-input {
+  outline: none;
+  border-radius: 5px;
+}
