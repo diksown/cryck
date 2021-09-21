@@ -32,25 +32,25 @@ async function diffSolves(user1, user2) {
 }
 
 function createChallNameLink(chall) {
-  let baseUrl = 'https://cryptohack.org/challenges/';
+  let baseUrl = "https://cryptohack.org/challenges/";
 
   let categoryLinkMap = {
-    'Introduction'      : 'introduction',
-    'General'           : 'general',
-    'Mathematics'       : 'maths',
-    'Symmetric Ciphers' : 'aes',
-    'RSA'               : 'rsa',
-    'Diffie-Hellman'    : 'diffie-hellman',
-    'Elliptic Curves'   : 'ecc',
-    'Hash Functions'    : 'hashes',
-    'Crypto on the Web' : 'web',
-    'Misc'              : 'misc'
-  }
+    Introduction: "introduction",
+    General: "general",
+    Mathematics: "maths",
+    "Symmetric Ciphers": "aes",
+    RSA: "rsa",
+    "Diffie-Hellman": "diffie-hellman",
+    "Elliptic Curves": "ecc",
+    "Hash Functions": "hashes",
+    "Crypto on the Web": "web",
+    Misc: "misc",
+  };
 
-  let a = document.createElement('a');
+  let a = document.createElement("a");
   var text = document.createTextNode(chall.name);
   a.append(text);
-  a.target = '_blank';
+  a.target = "_blank";
   a.href = baseUrl + categoryLinkMap[chall.category];
 
   return a;
