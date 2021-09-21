@@ -94,6 +94,7 @@ tbody tr:nth-child(odd) {
   display:flex;
   flex-direction:column;
   gap: 15px 0;
+  width: 50%;
 }
 
 .input-container {
@@ -103,4 +104,17 @@ tbody tr:nth-child(odd) {
 .main-container {
   display: flex;
   gap: 20px;
+  width: 70%;
+  justify-content: space-between;
+}
+
+.compare-btn-container {
+  
+}
+
+#compare-btn {
+  color: #000;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 5px;
 }

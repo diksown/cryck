@@ -12,15 +12,12 @@ async function getSolved(username) {
 }
 
 // return challenges that were done exclusively by one user
-async function diffSolves(user1, user2, index) {
+async function diffSolves(user1, user2) {
   solvedChalls1 = await getSolved(user1);
-  if (user2 == '') {
-    user2 = 0;
-  }
   solvedChalls2 = await getSolved(user2);
   
   if (!solvedChalls2) {
-    clearTable(index);
+    clearTable();
     return;
   }
 
@@ -41,36 +38,36 @@ async function diffSolves(user1, user2, index) {
 }
 
 function createChallNameLink(chall) {
-  let baseUrl = 'https://cryptohack.org/challenges/';
+  let baseUrl = "https://cryptohack.org/challenges/";
 
   let categoryLinkMap = {
-    'Introduction'      : 'introduction',
-    'General'           : 'general',
-    'Mathematics'       : 'maths',
-    'Symmetric Ciphers' : 'aes',
-    'RSA'               : 'rsa',
-    'Diffie-Hellman'    : 'diffie-hellman',
-    'Elliptic Curves'   : 'ecc',
-    'Hash Functions'    : 'hashes',
-    'Crypto on the Web' : 'web',
-    'Misc'              : 'misc'
-  }
+    Introduction: "introduction",
+    General: "general",
+    Mathematics: "maths",
+    "Symmetric Ciphers" : "aes",
+    RSA: "rsa",
+    "Diffie-Hellman": "diffie-hellman",
+    "Elliptic Curves": "ecc",
+    "Hash Functions": "hashes",
+    "Crypto on the Web": "web",
+    Misc: "misc"
+  };
 
-  let a = document.createElement('a');
+  let a = document.createElement("a");
   var text = document.createTextNode(chall.name);
   a.append(text);
-  a.target = '_blank';
+  a.target = "_blank";
   a.href = baseUrl + categoryLinkMap[chall.category];
 
   return a;
 }
 
-function clearTable(index) {
-  document.getElementById("challs-table-content" + index).innerHTML = "";
+function clearTable() {
+  document.getElementById("challs-table-content").innerHTML = "";
 }
 
-function addChallRow(chall, index) {
-  let table = document.getElementById("challs-table-content" + index);
+function addChallRow(chall) {
+  let table = document.getElementById("challs-table-content");
   let row = table.insertRow();
 
   let challName = row.insertCell();
@@ -85,31 +82,30 @@ function addChallRow(chall, index) {
   //solves.innerHTML = "?"; // uncomment after implemented
 }
 
-async function displayChallList(challs, index) {
+async function displayChallList(challs) {
   if (challs) {
-    clearTable(index);
+    clearTable();
     challs = challs.sort((a, b) => {
       diff = parseInt(a.points) - parseInt(b.points);
       return diff;
     });
     for (let chall of challs) {
-      addChallRow(chall, index);
+      addChallRow(chall);
     }
   }
 }
 
-async function displayChallsFromUser(username, index) {
+async function displayChallsFromUser(username) {
   challList = await getSolved(username);
-  displayChallList(challList, index);
+  displayChallList(challList);
 }
 
-async function displayExclusiveChalls(user1, user2, index) {
-  challList = await diffSolves(user1, user2, index);
-  displayChallList(challList, index);
+async function displayExclusiveChalls(user1, user2) {
+  challList = await diffSolves(user1, user2);
+  displayChallList(challList);
 }
 
-let userInput1 = document.getElementById("username-input1");
-let userInput2 = document.getElementById("username-input2");
+let userInput = document.getElementById('username-input');
 
 // userInput1.addEventListener("keyup", (event) => {
 //   if (event.key === "Enter") {
@@ -121,14 +117,13 @@ let userInput2 = document.getElementById("username-input2");
 //   }
 // });
 
-userInput1.addEventListener("keyup", function() { onUserSubmit(1) });
-userInput2.addEventListener("keyup", function() { onUserSubmit(2) });
+userInput.addEventListener("keyup", function() { onUserSubmit() });
 
-async function onUserSubmit(index) {
-  let id = 'username-input' + index;
+async function onUserSubmit() {
+  let user = userInput.value;
 
-  let user = document.getElementById(id).value;
   // workaround for now, but correct 99.98% of the time
   let userAllChalls = "hellman";
-  displayExclusiveChalls(userAllChalls, user, index);
+
+  displayExclusiveChalls(userAllChalls, user);
 }
