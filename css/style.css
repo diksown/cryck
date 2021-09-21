@@ -81,3 +81,40 @@ tbody tr:nth-child(odd) {
   top: 5px;
   right: 20px;
 }
+
+#username-input1 {
+  border-radius: 5px;
+}
+
+#username-input2 {
+  border-radius: 5px;
+}
+
+.input-table-container {
+  display:flex;
+  flex-direction:column;
+  gap: 15px 0;
+  width: 50%;
+}
+
+.input-container {
+  flex-grow: 0;
+}
+
+.main-container {
+  display: flex;
+  gap: 20px;
+  width: 70%;
+  justify-content: space-between;
+}
+
+.compare-btn-container {
+  
+}
+
+#compare-btn {
+  color: #000;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 5px;
+}

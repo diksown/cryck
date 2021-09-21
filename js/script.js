@@ -15,6 +15,12 @@ async function getSolved(username) {
 async function diffSolves(user1, user2) {
   solvedChalls1 = await getSolved(user1);
   solvedChalls2 = await getSolved(user2);
+  
+  if (!solvedChalls2) {
+    clearTable();
+    return;
+  }
+
   solvedNames1 = solvedChalls1.map((data) => data.name);
   solvedNames2 = solvedChalls2.map((data) => data.name);
 
@@ -77,13 +83,15 @@ function addChallRow(chall) {
 }
 
 async function displayChallList(challs) {
-  clearTable();
-  challs = challs.sort((a, b) => {
-    diff = parseInt(a.points) - parseInt(b.points);
-    return diff;
-  });
-  for (let chall of challs) {
-    addChallRow(chall);
+  if (challs) {
+    clearTable();
+    challs = challs.sort((a, b) => {
+      diff = parseInt(a.points) - parseInt(b.points);
+      return diff;
+    });
+    for (let chall of challs) {
+      addChallRow(chall);
+    }
   }
 }
 
@@ -97,7 +105,7 @@ async function displayExclusiveChalls(user1, user2) {
   displayChallList(challList);
 }
 
-let userInput = document.getElementById("username-input");
+let userInput = document.getElementById('username-input');
 
 userInput.addEventListener("keyup", (event) => {
   if (event.key === "Enter") {
