@@ -44,13 +44,13 @@ function createChallNameLink(chall) {
     Introduction: "introduction",
     General: "general",
     Mathematics: "maths",
-    "Symmetric Ciphers" : "aes",
+    "Symmetric Ciphers": "aes",
     RSA: "rsa",
     "Diffie-Hellman": "diffie-hellman",
     "Elliptic Curves": "ecc",
     "Hash Functions": "hashes",
     "Crypto on the Web": "web",
-    Misc: "misc"
+    Misc: "misc",
   };
 
   let a = document.createElement("a");
@@ -107,23 +107,11 @@ async function displayExclusiveChalls(user1, user2) {
 
 let userInput = document.getElementById('username-input');
 
-// userInput1.addEventListener("keyup", (event) => {
-//   if (event.key === "Enter") {
-//     let user = document.getElementById("username-input1").value;
-//     document.getElementById('username-input1').style.border = 'none';
-//     // workaround for now, but correct 99.98% of the time
-//     let userAllChalls = "hellman";
-//     displayExclusiveChalls(userAllChalls, user);
-//   }
-// });
-
-userInput.addEventListener("keyup", function() { onUserSubmit() });
-
-async function onUserSubmit() {
-  let user = userInput.value;
-
-  // workaround for now, but correct 99.98% of the time
-  let userAllChalls = "hellman";
-
-  displayExclusiveChalls(userAllChalls, user);
-}
+userInput.addEventListener("keyup", (event) => {
+  if (event.key === "Enter") {
+    let user = document.getElementById("username-input").value;
+    // workaround for now, but correct 99.98% of the time
+    let userAllChalls = "hellman";
+    displayExclusiveChalls(userAllChalls, user);
+  }
+});
