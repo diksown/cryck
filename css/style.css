@@ -50,7 +50,13 @@ body {
   font-weight: bolder;
 }
 
-.trophy-table {
-  border-width: 10px;
-  border-color: yellowgreen;
+.info-wrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+@media only screen and (max-width: 800px) {
+  .info-wrapper {
+    flex-direction: column;
+  }
 }
