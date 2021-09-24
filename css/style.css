@@ -3,9 +3,9 @@
 :root {
   --highlight-color: #feb32b;
   --highlight-fade-color: #f6f6f6;
-  --bg-color: #282055;
-  --navbar-color: #1e1447;
-  --bg-fade-color: rgb(48, 42, 134);
+  --bg-color: #1f1941;
+  --navbar-color: #140d30;
+  --bg-fade-color: rgb(23, 20, 66);
 }
 
 * {
@@ -26,21 +26,31 @@ body {
 }
 
 .navbar {
+  font-size: 23px;
   position: sticky;
   top: 0;
   margin: 0px;
   background-color: var(--navbar-color);
   display: flex;
-  padding: 10px 0px;
+  padding: 13px 10px;
   justify-content: space-between;
 }
 
 .navbar a {
-  border-radius: 10px;
+  border-radius: 3px;
   text-decoration: none;
-  padding: 10px 10px;
+  padding: 8px;
 }
 
 .navbar a:hover {
   background-color: var(--bg-fade-color);
+}
+
+.navbar-title {
+  font-weight: bolder;
+}
+
+.trophy-table {
+  border-width: 10px;
+  border-color: yellowgreen;
 }
