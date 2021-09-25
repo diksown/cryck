@@ -52,11 +52,30 @@ body {
 
 .info-wrapper {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 
-@media only screen and (max-width: 800px) {
-  .info-wrapper {
-    flex-direction: column;
-  }
+.trophy-card {
+  background-color: rgb(38, 38, 75);
+  width: 180px;
+  padding: 5px;
+  font-size: 17px;
+  border-radius: 7px;
+  margin: 10px;
+}
+
+.trophy-category {
+  margin: 5px auto;
+  width: max-content;
+}
+
+.trophy-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 7px;
+}
+
+.trophy-number {
+  margin: 5px;
 }
