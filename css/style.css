@@ -55,18 +55,27 @@ body {
   flex-direction: column;
 }
 
+.trophy-board {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
 .trophy-card {
   background-color: rgb(38, 38, 75);
-  width: 180px;
+  width: 140px;
   padding: 5px;
-  font-size: 17px;
+  font-size: 14px;
   border-radius: 7px;
-  margin: 10px;
+  margin: 5px;
 }
 
 .trophy-category {
   margin: 5px auto;
-  width: max-content;
+  text-align: center;
+  width: 130px;
 }
 
 .trophy-content {

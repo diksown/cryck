@@ -117,18 +117,67 @@ userInput.addEventListener("keyup", (event) => {
 });
 */
 
-async function trophyElement(trophyType, leftToSolve) {
-  let trophyTemplate;
-  await $.get("trophy.html", function (data) {
-    trophyTemplate = data;
-  });
-  let el = document.createElement("div");
-  el.innerHTML = trophyTemplate;
-  el = el.firstChild;
-  el.getElementById("trophy2");
-  console.log(el);
+// return a string with a trophy template
+function infoToTrophy(category, trophy1, trophy2, leftToSolve) {
+  let trophyTemplate = `
+  <div class="trophy-card">
+    <div class="trophy-category">
+      ${category}
+    </div>
+    <div class="trophy-content">
+      <img src="/img/icons/trophy${trophy1}.svg" width="40" />
+      <div class="trophy-number">
+        ${leftToSolve} 🡒
+      </div>
+      <img src="/img/icons/trophy${trophy2}.svg" width="40" />
+    </div>
+  </div>`;
+  return trophyTemplate;
 }
 
-trophyElement();
+// return a trophy DOM element with the given parameters
+// I think life would be easier if it was some js framework
+function trophyElement(category, t1, t2, leftToSolve) {
+  trophySuffix = {
+    e: "", // empty trophy
+    b: "-bronze", // bronze
+    s: "-silver", // silver
+    g: "-gold", // gold
+    r: "-golder", // golder
+  };
 
-console.log("hey!");
+  let t1Suf = trophySuffix[t1];
+  let t2Suf = trophySuffix[t2];
+
+  // string to element. best way I could find.
+  let newNode = document.createElement("div");
+  newNode.innerHTML = infoToTrophy(category, t1Suf, t2Suf, leftToSolve);
+  let trophyElementNode = newNode.firstElementChild;
+  return trophyElementNode;
+}
+
+function randomTrophy() {
+  let tList = ["e", "b", "s", "g", "r"];
+  let categories = [
+    "Introduction",
+    "General",
+    "Mathematics",
+    "Symmetric Ciphers",
+    "RSA",
+    "Diffie-Hellman",
+    "Elliptic Curves",
+    "Hash Functions",
+    "Crypto on the Web",
+    "Misc",
+  ];
+  let t1 = tList[Math.floor(Math.random() * tList.length)];
+  let t2 = tList[Math.floor(Math.random() * tList.length)];
+  let toSolve = Math.floor(Math.random() * 100);
+  let category = categories[Math.floor(Math.random() * categories.length)];
+  return trophyElement(category, t1, t2, toSolve);
+}
+
+trophyHolder = document.getElementById("tb");
+for (let i = 0; i < 10; i++) {
+  trophyHolder.appendChild(randomTrophy());
+}
