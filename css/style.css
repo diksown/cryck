@@ -124,6 +124,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  /* flex-direction: column; */
 }
 
 .chart-name {
@@ -136,4 +137,9 @@ body {
   padding: 0 5px 5px;
   margin: 10px auto;
   border-radius: 10px;
+}
+
+.compare-wrapper {
+  display: flex;
+  flex-wrap: wrap;
 }

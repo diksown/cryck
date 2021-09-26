@@ -3,102 +3,131 @@
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="css/style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
     <title>Cryck | CryptoHack Tool</title>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+      integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <!-- <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css"
+    /> -->
+    <script
+      type="text/javascript"
+      charset="utf8"
+      src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"
+    ></script>
   </head>
   <body>
-    <p class="credit">
-      Hosted on <a href="https://github.com/diksown/cryck">GitHub</a> by
-      <a href="https://github.com/diksown">Dikson</a>
-    </p>
+    <div class="navbar">
+      <div class="navbar-title">
+        <a href="index.html">
+          <span class="material-icons"> visibility </span>
+          <span class="to-hide">cryck</span>
+        </a>
+      </div>
+      <div class="navbar-menu">
+        <a href="index.html">
+          <span class="material-icons-outlined"> assessment </span>
+          <span class="to-hide">stats</span>
+        </a>
+        <a href="compare.html">
+          <span class="material-icons-outlined"> compare </span>
+          <span class="to-hide">compare</span>
+        </a>
+        <a href="about.html">
+          <span class="material-icons-outlined"> help_outline </span>
+          <span class="to-hide">about</span>
+        </a>
+      </div>
+    </div>
     <div class="content-wrapper">
-      <h1>Cryck</h1>
-      <p class="description">
-        Keep track of your unsolved CryptoHack challenges.
-      </p>
-      <a href="index.html" target="_new">Go to Single-User tracking</a>
-      <div class="main-container">
-        <div class="input-table-container">
-          <div class="input-container">
-            <input
-              id="username-input1"
-              type="text"
-              placeholder="Username"
-              spellcheck="false"
-            />
-            <span id="error1"></span>
+      <div class="info-wrapper">
+        <div class="input-wrapper">
+          <input
+            class="input-user"
+            placeholder="cryptohack user 1"
+            spellcheck="false"
+          />
+          <input
+            class="input-user"
+            placeholder="cryptohack user 2"
+            spellcheck="false"
+          />
+          <button type="submit">
+            <span class="material-icons"> visibility </span>
+          </button>
+        </div>
+        <div class="compare-wrapper">
+          <div class="chart-wrapper">
+            <div class="chart-name">Trophies from user 1</div>
+            <div id="trophies1" class="trophy-list">
+              <img src="/img/icons/trophy-golder.svg" width="40" />
+              <img src="/img/icons/trophy-gold.svg" width="40" />
+              <img src="/img/icons/trophy-silver.svg" width="40" />
+              <img src="/img/icons/trophy-bronze.svg" width="40" />
+              <img src="/img/icons/trophy.svg" width="40" />
+              <img src="/img/icons/trophy-golder.svg" width="40" />
+            </div>
           </div>
-          <div>
-            <table id="challs-table">
-              <thead>
-                <tr>
-                  <th>Challenge</th>
-                  <th>Category</th>
-                  <th>Points</th>
-                  <!-- <th>Solves</th> -->
-                </tr>
-              </thead>
-              <tbody id="challs-table-content1">
-                <tr>
-                  <td>Quick Maths</td>
-                  <td>Mathematics</td>
-                  <td>⭐ 20</td>
-                  <!-- <td>6666</td> -->
-                </tr>
-                <tr>
-                  <td>Break RSA</td>
-                  <td>RSA</td>
-                  <td>⭐ 300</td>
-                  <!-- <td>42</td> -->
-                </tr>
-              </tbody>
-            </table>
+          <div class="chart-wrapper">
+            <div class="chart-name">Trophies from user 2</div>
+            <div id="trophies2" class="trophy-list"></div>
           </div>
         </div>
-        <div class="input-table-container">
-          <div class="input-container">
-            <input
-              id="username-input2"
-              type="text"
-              placeholder="Username"
-              spellcheck="false"
-            />
-            <span id="error2"></span>
-          </div>
-          <div>
-            <table id="challs-table">
+        <div class="compare-wrapper">
+          <div class="chart-wrapper">
+            <div class="chart-name">Solved only by user 1</div>
+            <table
+              id="exclusive-challs-2"
+              class="challenges-table row-border stripe"
+            >
               <thead>
                 <tr>
-                  <th>Challenge</th>
+                  <th>Problem</th>
                   <th>Category</th>
                   <th>Points</th>
-                  <!-- <th>Solves</th> -->
+                  <th>Solves</th>
                 </tr>
               </thead>
-              <tbody id="challs-table-content2">
-                <tr>
-                  <td>Quick Maths</td>
-                  <td>Mathematics</td>
-                  <td>⭐ 20</td>
-                  <!-- <td>6666</td> -->
-                </tr>
-                <tr>
-                  <td>Break RSA</td>
-                  <td>RSA</td>
-                  <td>⭐ 300</td>
-                  <!-- <td>42</td> -->
-                </tr>
-              </tbody>
+              <tbody></tbody>
             </table>
           </div>
-        </div>
-        <div class="compare-btn-container">
-          <button id="compare-btn" type="button">Compare!</button>
+          <div class="chart-wrapper">
+            <div class="chart-name">Solved only by user 2</div>
+            <table
+              id="exclusive-challs-2"
+              class="challenges-table row-border stripe"
+            >
+              <thead>
+                <tr>
+                  <th>Problem</th>
+                  <th>Category</th>
+                  <th>Points</th>
+                  <th>Solves</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
-    <script src="js/compare.js"></script>
+
+    <script src="js/script.js"></script>
   </body>
 </html>
