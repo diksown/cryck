@@ -6,6 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="css/style.css" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
     <title>Cryck | CryptoHack Tool</title>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
@@ -27,54 +35,56 @@
   <body>
     <div class="navbar">
       <div class="navbar-title">
-        <a href="#">cryck</a>
+        <a href="#">
+          <span class="material-icons"> visibility </span>
+          <span class="to-hide">cryck</span>
+        </a>
       </div>
       <div class="navbar-menu">
-        <a href="#">stats</a>
-        <a href="#">compare</a>
-        <a href="#">about</a>
+        <a href="#">
+          <span class="material-icons-outlined"> assessment </span>
+          <span class="to-hide">stats</span>
+        </a>
+        <a href="#">
+          <span class="material-icons-outlined"> compare </span>
+          <span class="to-hide">compare</span>
+        </a>
+        <a href="#">
+          <span class="material-icons-outlined"> help_outline </span>
+          <span class="to-hide">about</span>
+        </a>
       </div>
     </div>
     <div class="content-wrapper">
-      <input class="input-user" placeholder="cryptohack username" />
       <div class="info-wrapper">
-        <div id="tb" class="trophy-board"></div>
-        <table id="cb" class="challenges-table row-border stripe">
-          <thead>
-            <tr>
-              <th>Problem</th>
-              <th>Category</th>
-              <th>Points</th>
-              <th>Solves</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>RSA or HMAC? Part 2</td>
-              <td>Crypto on the Web</td>
-              <td>100</td>
-              <td>10</td>
-            </tr>
-            <tr>
-              <td>Roll your Own</td>
-              <td>Mathematics</td>
-              <td>90</td>
-              <td>30</td>
-            </tr>
-            <tr>
-              <td>Dancing Queen</td>
-              <td>Symmetric Ciphers</td>
-              <td>120</td>
-              <td>18</td>
-            </tr>
-            <tr>
-              <td>SSH Keys</td>
-              <td>General</td>
-              <td>35</td>
-              <td>26</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="input-wrapper">
+          <input
+            class="input-user"
+            placeholder="cryptohack username"
+            spellcheck="false"
+          />
+          <button type="submit">
+            <span class="material-icons"> visibility </span>
+          </button>
+        </div>
+        <div class="chart-wrapper">
+          <div class="chart-name">Trophy Road</div>
+          <div id="tb" class="trophy-board"></div>
+        </div>
+        <div class="chart-wrapper">
+          <div class="chart-name">Challenges Unsolved</div>
+          <table id="ct" class="challenges-table row-border stripe">
+            <thead>
+              <tr>
+                <th>Problem</th>
+                <th>Category</th>
+                <th>Points</th>
+                <th>Solves</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
       </div>
     </div>
 

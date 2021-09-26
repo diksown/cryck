@@ -66,20 +66,90 @@ function clearTable() {
   document.getElementById("challs-table-content").innerHTML = "";
 }
 
-function addChallRow(chall) {
-  let table = document.getElementById("challs-table-content");
+function randomChall() {
+  let categories = [
+    "Introduction",
+    "General",
+    "Mathematics",
+    "Symmetric Ciphers",
+    "RSA",
+    "Diffie-Hellman",
+    "Elliptic Curves",
+    "Hash Functions",
+    "Crypto on the Web",
+    "Misc",
+  ];
+  let adjs = [
+    "Portly",
+    "Posh",
+    "Positive",
+    "Possible",
+    "Potable",
+    "Powerful",
+    "Powerless",
+    "Practical",
+    "Precious",
+    "Present",
+    "Prestigious",
+    "Pretty",
+    "Precious",
+    "Previous",
+    "Pricey",
+  ];
+  let nouns = [
+    "Paper",
+    "Paperback",
+    "Parade",
+    "Parallelogram",
+    "Parcel",
+    "Parent",
+    "Parentheses",
+    "Park",
+    "Parrot",
+    "Parsnip",
+    "Part",
+    "Particle",
+    "Partner",
+    "Partridge",
+    "Party",
+    "Passbook",
+    "Passenger",
+    "Passive",
+    "Pasta",
+  ];
+  let name =
+    adjs[Math.floor(Math.random() * adjs.length)] +
+    " " +
+    adjs[Math.floor(Math.random() * adjs.length)] +
+    " " +
+    nouns[Math.floor(Math.random() * nouns.length)];
+  let category = categories[Math.floor(Math.random() * categories.length)];
+  let points = Math.floor(Math.random() * 10) * 25;
+  let solves = Math.floor(Math.random() * 100) * 25;
+  return {
+    name: name,
+    points: points,
+    category: category,
+    points: points,
+    solves: solves,
+  };
+}
+
+function addChallRow(chall, tableId) {
+  let table = document.getElementById(tableId).getElementsByTagName("tbody")[0];
   let row = table.insertRow();
 
   let challName = row.insertCell();
   let category = row.insertCell();
   let points = row.insertCell();
-  //let solves = row.insertCell();
+  let solves = row.insertCell();
 
   let a = createChallNameLink(chall);
   challName.appendChild(a);
+  challName.innerHTML = chall.name;
   category.innerHTML = chall.category;
-  points.innerHTML = "⭐ " + chall.points;
-  //solves.innerHTML = "?"; // uncomment after implemented
+  points.innerHTML = chall.points;
+  solves.innerHTML = chall.solves;
 }
 
 async function displayChallList(challs) {
@@ -188,6 +258,10 @@ $.extend($.fn.dataTable.defaults, {
   info: false,
 });
 
+for (let i = 0; i < 10; i++) {
+  addChallRow(randomChall(), "ct");
+}
+
 $(document).ready(function () {
-  $("#cb").DataTable();
+  $("#ct").DataTable();
 });
