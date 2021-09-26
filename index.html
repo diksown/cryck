@@ -7,9 +7,25 @@
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="css/style.css" />
     <title>Cryck | CryptoHack Tool</title>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+      integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <!-- <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css"
+    /> -->
+    <script
+      type="text/javascript"
+      charset="utf8"
+      src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"
+    ></script>
   </head>
   <body>
-    <!-- <div class="navbar">
+    <div class="navbar">
       <div class="navbar-title">
         <a href="#">cryck</a>
       </div>
@@ -20,90 +36,48 @@
       </div>
     </div>
     <div class="content-wrapper">
-      <div class="input-wrapper">
-        <input placeholder="cryptohack username" />
-      </div>
+      <input class="input-user" placeholder="cryptohack username" />
       <div class="info-wrapper">
-        <div class="trophy-table">
-          <tr>
-            <span>MISC</span>
-            <span style="display: flex; align-items: center">
-              <img src="/img/icons/trophy-silver.svg" width="60" />
-              -3🡒
-              <img src="/img/icons/trophy-gold.svg" width="60" />
-            </span>
-            <br />
-          </tr>
-          <tr>
-            <span>2</span>
-            <span>MATH</span>
-            <span style="display: flex; align-items: center">
-              <img src="/img/icons/trophy.svg" width="60" />
-              →
-              <img src="/img/icons/trophy-bronze.svg" width="60" />
-            </span>
-          </tr>
-          <tr>
-            <span>2</span>
-            <span>ECC</span>
-            <span style="display: flex; align-items: center">
-              <img src="/img/icons/trophy-gold.svg" width="60" />
-              →
-              <img src="/img/icons/trophy-golder.svg" width="60" />
-            </span>
-          </tr>
-          <tr>
-            <span>1</span>
-            <span>RSA</span>
-            <span style="display: flex; align-items: center">
-              <img src="/img/icons/trophy-bronze.svg" width="60" />
-              →
-              <img src="/img/icons/trophy-silver.svg" width="60" />
-            </span>
-          </tr>
-          <tr>
-            <span></span>
-            <span>GENERAL</span>
-            <span style="display: flex; align-items: center">
-              <img src="/img/icons/trophy-golder.svg" width="60" />
-            </span>
-          </tr>
-        </div>
-        <table class="challenges">
-          <tr>
-            <th>Problem</th>
-            <th>Category</th>
-            <th>Points</th>
-            <th>Solves</th>
-          </tr>
-          <tr>
-            <td>RSA or HMAC? Part 2</td>
-            <td>Crypto on the Web</td>
-            <td>100</td>
-            <td>10</td>
-          </tr>
-          <tr>
-            <td>Roll your Own</td>
-            <td>Mathematics</td>
-            <td>90</td>
-            <td>30</td>
-          </tr>
-          <tr>
-            <td>Dancing Queen</td>
-            <td>Symmetric Ciphers</td>
-            <td>120</td>
-            <td>18</td>
-          </tr>
-          <tr>
-            <td>SSH Keys</td>
-            <td>General</td>
-            <td>35</td>
-            <td>26</td>
-          </tr>
+        <div id="tb" class="trophy-board"></div>
+        <table id="cb" class="challenges-table row-border stripe">
+          <thead>
+            <tr>
+              <th>Problem</th>
+              <th>Category</th>
+              <th>Points</th>
+              <th>Solves</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>RSA or HMAC? Part 2</td>
+              <td>Crypto on the Web</td>
+              <td>100</td>
+              <td>10</td>
+            </tr>
+            <tr>
+              <td>Roll your Own</td>
+              <td>Mathematics</td>
+              <td>90</td>
+              <td>30</td>
+            </tr>
+            <tr>
+              <td>Dancing Queen</td>
+              <td>Symmetric Ciphers</td>
+              <td>120</td>
+              <td>18</td>
+            </tr>
+            <tr>
+              <td>SSH Keys</td>
+              <td>General</td>
+              <td>35</td>
+              <td>26</td>
+            </tr>
+          </tbody>
         </table>
       </div>
-    </div> -->
-    <div id="tb" class="trophy-board"></div>
+    </div>
+
     <script src="js/script.js"></script>
   </body>
 </html>

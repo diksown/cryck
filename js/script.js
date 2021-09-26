@@ -181,3 +181,13 @@ trophyHolder = document.getElementById("tb");
 for (let i = 0; i < 10; i++) {
   trophyHolder.appendChild(randomTrophy());
 }
+
+$.extend($.fn.dataTable.defaults, {
+  searching: false,
+  paging: false,
+  info: false,
+});
+
+$(document).ready(function () {
+  $("#cb").DataTable();
+});
