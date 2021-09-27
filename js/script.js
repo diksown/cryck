@@ -62,6 +62,7 @@ function addChallRow(chall, tableId) {
 // add a list of challs to a table.
 function displayChallList(challs, tableId) {
   let t = $("#" + tableId).DataTable();
+  t.clear();
   for (let chall of challs) {
     addChallRow(chall, tableId);
   }
@@ -70,8 +71,6 @@ function displayChallList(challs, tableId) {
 
 // display challs a user hasn't solved to a table
 function displayUnsolvedFromUser(challs, allChalls, tableId) {
-  let t = $("#" + tableId).DataTable();
-  t.clear();
   let diffChalls = diffSolves(allChalls, challs);
   let unsolvedChalls = diffChalls[0];
   displayChallList(unsolvedChalls, tableId);
@@ -265,8 +264,10 @@ async function fetchAndDisplayStats(username, trophyId = "tb", challId = "ct") {
 
   // check for errors
   try {
-    userInfo = await getInfo(username);
-    userAllChallsInfo = await getInfo(userAllChalls);
+    [userInfo, userAllChallsInfo] = await Promise.all([
+      getInfo(username),
+      getInfo(userAllChalls),
+    ]);
   } catch {
     showError();
     searchIcon.classList.remove("spinning");
@@ -300,9 +301,11 @@ async function fetchAndDisplayComparison(
 
   // check for errors
   try {
-    user1Info = await getInfo(username1);
-    user2Info = await getInfo(username2);
-    userAllChallsInfo = await getInfo(userAllChalls);
+    [user1Info, user2Info, userAllChallsInfo] = await Promise.all([
+      getInfo(username1),
+      getInfo(username2),
+      getInfo(userAllChalls),
+    ]);
   } catch {
     showError();
     searchIcon.classList.remove("spinning");

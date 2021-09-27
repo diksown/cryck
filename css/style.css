@@ -129,6 +129,10 @@ body {
   border-radius: 10px;
 }
 
+.challenges-table th {
+  cursor: pointer;
+}
+
 .input-wrapper {
   display: flex;
   align-items: center;
