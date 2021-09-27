@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="css/style.css" />
+    <title>Cryck | Compare</title>
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+      rel="stylesheet"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+      integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <!-- <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css"
+    /> -->
+    <script
+      type="text/javascript"
+      charset="utf8"
+      src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"
+    ></script>
+  </head>
+  <body>
+    <div class="navbar">
+      <div class="navbar-title">
+        <a href="index.html">
+          <span class="material-icons"> visibility </span>
+          <span class="to-hide">cryck</span>
+        </a>
+      </div>
+      <div class="navbar-menu">
+        <a href="index.html">
+          <span class="material-icons-outlined"> assessment </span>
+          <span class="to-hide">stats</span>
+        </a>
+        <a href="compare.html">
+          <span class="material-icons-outlined"> compare </span>
+          <span class="to-hide">compare</span>
+        </a>
+        <a href="about.html">
+          <span class="material-icons-outlined"> help_outline </span>
+          <span class="to-hide">about</span>
+        </a>
+      </div>
+    </div>
+    <div class="content-wrapper">
+      <div class="input-wrapper">
+        <input
+          class="input-user"
+          id="username1"
+          placeholder="cryptohack user 1"
+          spellcheck="false"
+          type="text"
+          autocomplete="off"
+        />
+        <input
+          class="input-user"
+          id="username2"
+          placeholder="cryptohack user 2"
+          spellcheck="false"
+          autocomplete="off"
+        />
+        <button class="button-submit" type="submit" id="btn">
+          <span class="material-icons" id="search-icon"> visibility </span>
+        </button>
+      </div>
+      <div class="info-wrapper">
+        <div class="compare-wrapper">
+          <div class="chart-wrapper">
+            <div class="chart-name">
+              Trophies from <span class="user-name-1">user1</span>
+            </div>
+            <div id="trophies1" class="trophy-case-compare"></div>
+          </div>
+          <div class="chart-wrapper">
+            <div class="chart-name">
+              Trophies from <span class="user-name-2">user2</span>
+            </div>
+            <div id="trophies2" class="trophy-case-compare"></div>
+          </div>
+        </div>
+        <div class="compare-wrapper">
+          <div class="chart-wrapper">
+            <div class="chart-name">
+              Solved only by <span class="user-name-1">user1</span>
+            </div>
+            <table
+              id="exclusive-challs-1"
+              class="challenges-table row-border stripe"
+            >
+              <thead>
+                <tr>
+                  <th>
+                    Problem
+                    <span class="material-icons-outlined"> unfold_more </span>
+                  </th>
+                  <th>
+                    Category
+                    <span class="material-icons-outlined"> unfold_more </span>
+                  </th>
+                  <th>
+                    Points
+                    <span class="material-icons-outlined"> unfold_more </span>
+                  </th>
+                  <th>
+                    Solves
+                    <span class="material-icons-outlined"> unfold_more </span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div class="chart-wrapper">
+            <div class="chart-name">
+              Solved only by <span class="user-name-2">user2</span>
+            </div>
+            <table
+              id="exclusive-challs-2"
+              class="challenges-table row-border stripe"
+            >
+              <thead>
+                <tr>
+                  <th>
+                    Problem
+                    <span class="material-icons-outlined"> unfold_more </span>
+                  </th>
+                  <th>
+                    Category
+                    <span class="material-icons-outlined"> unfold_more </span>
+                  </th>
+                  <th>
+                    Points
+                    <span class="material-icons-outlined"> unfold_more </span>
+                  </th>
+                  <th>
+                    Solves
+                    <span class="material-icons-outlined"> unfold_more </span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <div>
+        <a href="https://github.com/diksown/cryck">
+          <i class="fab fa-github"></i> Made with <i class="fas fa-heart"></i>
+        </a>
+        by <a href="https://github.com/diksown">Dikson</a>
+      </div>
+    </div>
+    <script src="js/script.js"></script>
+    <script src="js/compare.js"></script>
+  </body>
+</html>

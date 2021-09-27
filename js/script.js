@@ -1,117 +1,337 @@
+// change datatable defaults
+$.extend($.fn.dataTable.defaults, {
+  searching: false,
+  paging: false,
+  info: false,
+});
+
+// workaround for now, but works 99.98% of the time
+const userAllChalls = "hellman";
+
+// hardcoded, I know. but this is the only way
+// I could thought of getting them ordered.
+const categories = [
+  "Introduction",
+  "General",
+  "Mathematics",
+  "Symmetric Ciphers",
+  "RSA",
+  "Diffie-Hellman",
+  "Elliptic Curves",
+  "Hash Functions",
+  "Crypto on the Web",
+  "Misc",
+];
+
 // return a promise of info for a particular user
 async function getInfo(username) {
-  let baseUrl = "https://cryptohack.org/api/user/";
-  const response = await fetch(baseUrl + username + "/");
-  return await response.json();
-}
+  if (username === "") {
+    throw "Blank username.";
+  }
 
-// return a promise of solved challenges
-async function getSolved(username) {
-  const data = await getInfo(username);
-  return data.solved_challenges;
+  let baseUrl = "https://cryptohack.org/api/user/";
+  let response = await fetch(baseUrl + username + "/");
+  let info = await response.json();
+  if (info.hasOwnProperty("username")) {
+    return info;
+  } else {
+    throw "User not found.";
+  }
 }
 
 // return challenges that were done exclusively by one user
-async function diffSolves(user1, user2) {
-  solvedChalls1 = await getSolved(user1);
-  solvedChalls2 = await getSolved(user2);
-  
-  if (!solvedChalls2) {
-    clearTable();
-    return;
-  }
-
-  solvedNames1 = solvedChalls1.map((data) => data.name);
-  solvedNames2 = solvedChalls2.map((data) => data.name);
+function diffSolves(user1challs, user2challs) {
+  solvedNames1 = user1challs.map((data) => data.name);
+  solvedNames2 = user2challs.map((data) => data.name);
 
   // solved only by user 1
-  xSolved1 = solvedChalls1.filter(
-    (chall) => !solvedNames2.includes(chall.name)
-  );
-  /* 
+  xSolved1 = user1challs.filter((chall) => !solvedNames2.includes(chall.name));
+
   // solved only by user 2
-  xSolved2 = solvedChalls2.filter(
-    (chall) => !solvedNames1.includes(chall.name)
-  );
-  */
-  return xSolved1;
+  xSolved2 = user2challs.filter((chall) => !solvedNames1.includes(chall.name));
+
+  return [xSolved1, xSolved2];
 }
 
-function createChallNameLink(chall) {
-  let baseUrl = "https://cryptohack.org/challenges/";
+// add a chall to a table.
+function addChallRow(chall, tableId) {
+  let t = $("#" + tableId).DataTable();
+  t.row.add([chall.name, chall.category, chall.points, chall.solves]).draw();
+}
 
-  let categoryLinkMap = {
-    Introduction: "introduction",
-    General: "general",
-    Mathematics: "maths",
-    "Symmetric Ciphers": "aes",
-    RSA: "rsa",
-    "Diffie-Hellman": "diffie-hellman",
-    "Elliptic Curves": "ecc",
-    "Hash Functions": "hashes",
-    "Crypto on the Web": "web",
-    Misc: "misc",
+// add a list of challs to a table.
+function displayChallList(challs, tableId) {
+  let t = $("#" + tableId).DataTable();
+  t.clear();
+  for (let chall of challs) {
+    addChallRow(chall, tableId);
+  }
+  t.draw();
+}
+
+// display challs a user hasn't solved to a table
+function displayUnsolvedFromUser(challs, allChalls, tableId) {
+  let diffChalls = diffSolves(allChalls, challs);
+  let unsolvedChalls = diffChalls[0];
+  displayChallList(unsolvedChalls, tableId);
+}
+
+// return a string with a trophy template.
+// trophyInfo is either [trophy] or [trophy1, trophy2, leftToSolve].
+function infoToTrophy(category, trophyInfo) {
+  let trophyTemplate;
+  let trophySuffix = {
+    e: "", // empty trophy
+    b: "-bronze", // bronze
+    s: "-silver", // silver
+    g: "-gold", // gold
+    r: "-golder", // golder
   };
 
-  let a = document.createElement("a");
-  var text = document.createTextNode(chall.name);
-  a.append(text);
-  a.target = "_blank";
-  a.href = baseUrl + categoryLinkMap[chall.category];
+  if (trophyInfo.length === 1) {
+    let trophy = trophyInfo[0];
+    trophyTemplate = `
+    <img src="/img/icons/trophy${trophySuffix[trophy]}.svg" width="40" />`;
+  } else {
+    let trophy1 = trophyInfo[0];
+    let trophy2 = trophyInfo[1];
+    let leftToSolve = trophyInfo[2];
+    trophyTemplate = `
+    <img src="/img/icons/trophy${trophySuffix[trophy1]}.svg" width="40" />
+      <div class="trophy-number">
+        ${leftToSolve} 🡒
+      </div>
+    <img src="/img/icons/trophy${trophySuffix[trophy2]}.svg" width="40" />`;
+  }
 
-  return a;
+  let trophyCardTemplate = `
+  <div class="trophy-card">
+    <div class="trophy-category">
+      ${category}
+    </div>
+    <div class="trophy-content">
+      ${trophyTemplate}
+    </div>
+  </div>`;
+  return trophyCardTemplate;
 }
 
-function clearTable() {
-  document.getElementById("challs-table-content").innerHTML = "";
+// return a trophy DOM element with the given parameters
+// I think life would be easier if we used some js framework...
+function trophyElement(category, trophyInfo) {
+  // string to element. best way I could find.
+  let newNode = document.createElement("div");
+  newNode.innerHTML = infoToTrophy(category, trophyInfo);
+  let trophyElementNode = newNode.firstElementChild;
+  return trophyElementNode;
 }
 
-function addChallRow(chall) {
-  let table = document.getElementById("challs-table-content");
-  let row = table.insertRow();
+// same as trophyElement function, but with a simpler interface
+function simpleTrophyElement(trophy) {
+  let trophySuffix = {
+    e: "", // empty trophy
+    b: "-bronze", // bronze
+    s: "-silver", // silver
+    g: "-gold", // gold
+    r: "-golder", // golder
+  };
 
-  let challName = row.insertCell();
-  let category = row.insertCell();
-  let points = row.insertCell();
-  //let solves = row.insertCell();
-
-  let a = createChallNameLink(chall);
-  challName.appendChild(a);
-  category.innerHTML = chall.category;
-  points.innerHTML = "⭐ " + chall.points;
-  //solves.innerHTML = "?"; // uncomment after implemented
+  // string to element. best way I could find.
+  let newNode = document.createElement("div");
+  newNode.innerHTML = `
+  <div class="trophy-card-compare">
+    <img src="/img/icons/trophy${trophySuffix[trophy]}.svg" width="50" />
+  </div>`;
+  let trophyElementNode = newNode.firstElementChild;
+  return trophyElementNode;
 }
 
-async function displayChallList(challs) {
-  if (challs) {
-    clearTable();
-    challs = challs.sort((a, b) => {
-      diff = parseInt(a.points) - parseInt(b.points);
-      return diff;
-    });
-    for (let chall of challs) {
-      addChallRow(chall);
+// return the number of trophies given the number of
+// challenges solved and the total number of challenges
+function currentTrophy(noSolved, totalChalls) {
+  let frac = noSolved / totalChalls;
+  if (frac < 0.25) return "e"; // empty trophy
+  if (frac < 0.5) return "b"; // bronze trophy
+  if (frac < 0.75) return "s"; // silver trophy
+  if (frac < 1.0) return "g"; // gold trophy
+  if (frac === 1.0) return "r"; // gold + star ('golder') trophy
+}
+
+// get the number of solved and the total number of challs
+// in the category. if all were solved, return a array only
+// with the star trophy. else, return a array with the current
+// trophy, the next trophy and the number of challs needed to go to the next trophy
+function trophyStats(noSolved, totalChalls) {
+  let curTrophy = currentTrophy(noSolved, totalChalls);
+  if (curTrophy === "r") return [curTrophy];
+  else {
+    for (let neededToSolve = 0; ; neededToSolve++) {
+      let nextTrophy = currentTrophy(noSolved + neededToSolve, totalChalls);
+      if (nextTrophy !== curTrophy) {
+        return [curTrophy, nextTrophy, neededToSolve];
+      }
     }
   }
 }
 
-async function displayChallsFromUser(username) {
-  challList = await getSolved(username);
-  displayChallList(challList);
-}
-
-async function displayExclusiveChalls(user1, user2) {
-  challList = await diffSolves(user1, user2);
-  displayChallList(challList);
-}
-
-let userInput = document.getElementById('username-input');
-
-userInput.addEventListener("keyup", (event) => {
-  if (event.key === "Enter") {
-    let user = document.getElementById("username-input").value;
-    // workaround for now, but correct 99.98% of the time
-    let userAllChalls = "hellman";
-    displayExclusiveChalls(userAllChalls, user);
+// return a js object saying how many challs of each category were solved
+function solvedCount(challs) {
+  let categoryCount = {};
+  for (category of categories) {
+    categoryCount[category] = 0;
   }
-});
+  for (let chall of challs) {
+    categoryCount[chall.category]++;
+  }
+  return categoryCount;
+}
+
+// return a trophy element list with all trophy stats from a user.
+function trophyRoad(challs, allChalls) {
+  let categoryCount = solvedCount(challs);
+  let categoryTotal = solvedCount(allChalls);
+  let trophies = [];
+  for (let category of categories) {
+    curTrophy = trophyStats(categoryCount[category], categoryTotal[category]);
+    curTrophyElement = trophyElement(category, curTrophy);
+    trophies.push(curTrophyElement);
+  }
+  return trophies;
+}
+
+// add a trophy element to a board
+function addTrophy(trophy, boardId) {
+  let trophyHolder = document.getElementById(boardId);
+  trophyHolder.appendChild(trophy);
+}
+
+// display all trophies, evaluated from the `challs` list, to a board.
+function displayTrophies(challs, allChalls, boardId) {
+  let trophyHolder = document.getElementById(boardId);
+  trophyHolder.innerHTML = "";
+  trophies = trophyRoad(challs, allChalls);
+  for (let trophy of trophies) {
+    addTrophy(trophy, boardId);
+  }
+}
+
+// does <essentially> the same thing as the displayTrophies function,
+// but with a simpler interface, as it is just for comparison purposes.
+function displayComparisonTrophies(challs, allChalls, boardId) {
+  let trophyHolder = document.getElementById(boardId);
+  trophyHolder.innerHTML = "";
+  let categoryCount = solvedCount(challs);
+  let categoryTotal = solvedCount(allChalls);
+  let trophies = [];
+  for (let category of categories) {
+    curTrophy = currentTrophy(categoryCount[category], categoryTotal[category]);
+    curTrophyElement = simpleTrophyElement(curTrophy);
+    trophies.push(curTrophyElement);
+  }
+  for (let trophy of trophies) {
+    addTrophy(trophy, boardId);
+  }
+}
+
+// the .info-wrapper class is hidden at the beginning
+function showClass(classToShow = "info-wrapper") {
+  elementsToShow = document.getElementsByClassName(classToShow);
+  for (let element of elementsToShow) {
+    element.style.display = "flex";
+  }
+}
+
+function showError(errorClass = "input-user") {
+  let errorElements = document.getElementsByClassName(errorClass);
+  for (let el of errorElements) {
+    el.style.borderColor = "red";
+  }
+}
+
+function clearError(errorClass = "input-user") {
+  let errorElements = document.getElementsByClassName(errorClass);
+  for (let el of errorElements) {
+    el.style.borderColor = "";
+  }
+}
+
+// main function of index.html page.
+async function fetchAndDisplayStats(username, trophyId = "tb", challId = "ct") {
+  let searchIcon = document.getElementById("search-icon");
+  searchIcon.classList.add("spinning");
+  let userInfo, userAllChallsInfo;
+  clearError();
+
+  // check for errors
+  try {
+    [userInfo, userAllChallsInfo] = await Promise.all([
+      getInfo(username),
+      getInfo(userAllChalls),
+    ]);
+  } catch {
+    showError();
+    searchIcon.classList.remove("spinning");
+    return;
+  }
+
+  let challs = userInfo.solved_challenges;
+  let allChalls = userAllChallsInfo.solved_challenges;
+
+  let name = userInfo.username;
+  displayTrophies(challs, allChalls, trophyId);
+  displayUnsolvedFromUser(challs, allChalls, challId);
+  // change chart wrappers to put the user name
+
+  searchIcon.classList.remove("spinning");
+  showClass();
+}
+
+async function fetchAndDisplayComparison(
+  username1,
+  username2,
+  trophyId = "trophies",
+  challId = "exclusive-challs-",
+  nameReplace = "user-name-"
+) {
+  let searchIcon = document.getElementById("search-icon");
+  searchIcon.classList.add("spinning");
+  clearError();
+
+  let user1Info, user2Info, userAllChallsInfo;
+
+  // check for errors
+  try {
+    [user1Info, user2Info, userAllChallsInfo] = await Promise.all([
+      getInfo(username1),
+      getInfo(username2),
+      getInfo(userAllChalls),
+    ]);
+  } catch {
+    showError();
+    searchIcon.classList.remove("spinning");
+    return;
+  }
+
+  let challs1 = user1Info.solved_challenges;
+  let challs2 = user2Info.solved_challenges;
+  let allChalls = userAllChallsInfo.solved_challenges;
+
+  let names = [user1Info.username, user2Info.username];
+
+  displayComparisonTrophies(challs1, allChalls, trophyId + "1");
+  displayComparisonTrophies(challs2, allChalls, trophyId + "2");
+
+  let xSolved = diffSolves(challs1, challs2);
+
+  for (let i = 1; i <= 2; i++) {
+    displayChallList(xSolved[i - 1], challId + i.toString());
+    elementsToReplace = document.getElementsByClassName(
+      nameReplace + i.toString()
+    );
+    for (let toReplace of elementsToReplace) {
+      toReplace.innerText = names[i - 1];
+    }
+  }
+  searchIcon.classList.remove("spinning");
+  showClass();
+}

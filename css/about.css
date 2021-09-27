@@ -1,0 +1,21 @@
+.about-wrapper {
+  padding: 0px 50px;
+}
+
+@media screen and (max-width: 600px) {
+  .about-wrapper {
+    padding: 20px;
+  }
+}
+
+h1 {
+  font-size: 40px;
+}
+
+h2 {
+  font-size: 30px;
+}
+
+a {
+  color: rgb(255, 153, 255);
+}
