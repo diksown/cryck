@@ -25,9 +25,18 @@ const categories = [
 
 // return a promise of info for a particular user
 async function getInfo(username) {
+  if (username === "") {
+    throw "Blank username.";
+  }
+
   let baseUrl = "https://cryptohack.org/api/user/";
-  const response = await fetch(baseUrl + username + "/");
-  return await response.json();
+  let response = await fetch(baseUrl + username + "/");
+  let info = await response.json();
+  if (info.hasOwnProperty("username")) {
+    return info;
+  } else {
+    throw "User not found.";
+  }
 }
 
 // return challenges that were done exclusively by one user
@@ -146,7 +155,7 @@ function currentTrophy(noSolved, totalChalls) {
   if (frac < 0.5) return "b"; // bronze trophy
   if (frac < 0.75) return "s"; // silver trophy
   if (frac < 1.0) return "g"; // gold trophy
-  if (frac == 1.0) return "r"; // gold + star ('golder') trophy
+  if (frac === 1.0) return "r"; // gold + star ('golder') trophy
 }
 
 // get the number of solved and the total number of challs
@@ -225,6 +234,7 @@ function displayComparisonTrophies(challs, allChalls, boardId) {
   }
 }
 
+// the .info-wrapper class is hidden at the beginning
 function showClass(classToShow = "info-wrapper") {
   elementsToShow = document.getElementsByClassName(classToShow);
   for (let element of elementsToShow) {
@@ -232,14 +242,36 @@ function showClass(classToShow = "info-wrapper") {
   }
 }
 
+function showError(errorClass = "input-user") {
+  let errorElements = document.getElementsByClassName(errorClass);
+  for (let el of errorElements) {
+    el.style.borderColor = "red";
+  }
+}
+
+function clearError(errorClass = "input-user") {
+  let errorElements = document.getElementsByClassName(errorClass);
+  for (let el of errorElements) {
+    el.style.borderColor = "";
+  }
+}
+
 // main function of index.html page.
 async function fetchAndDisplayStats(username, trophyId = "tb", challId = "ct") {
   let searchIcon = document.getElementById("search-icon");
   searchIcon.classList.add("spinning");
+  let userInfo, userAllChallsInfo;
+  clearError();
 
-  // check for errors in the next two lines
-  let userInfo = await getInfo(username);
-  let userAllChallsInfo = await getInfo(userAllChalls);
+  // check for errors
+  try {
+    userInfo = await getInfo(username);
+    userAllChallsInfo = await getInfo(userAllChalls);
+  } catch {
+    showError();
+    searchIcon.classList.remove("spinning");
+    return;
+  }
 
   let challs = userInfo.solved_challenges;
   let allChalls = userAllChallsInfo.solved_challenges;
@@ -262,11 +294,20 @@ async function fetchAndDisplayComparison(
 ) {
   let searchIcon = document.getElementById("search-icon");
   searchIcon.classList.add("spinning");
+  clearError();
 
-  // check for errors in the next three lines
-  let user1Info = await getInfo(username1);
-  let user2Info = await getInfo(username2);
-  let userAllChallsInfo = await getInfo(userAllChalls);
+  let user1Info, user2Info, userAllChallsInfo;
+
+  // check for errors
+  try {
+    user1Info = await getInfo(username1);
+    user2Info = await getInfo(username2);
+    userAllChallsInfo = await getInfo(userAllChalls);
+  } catch {
+    showError();
+    searchIcon.classList.remove("spinning");
+    return;
+  }
 
   let challs1 = user1Info.solved_challenges;
   let challs2 = user2Info.solved_challenges;

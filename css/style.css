@@ -63,6 +63,7 @@ body {
 .input-user {
   text-align: center;
   margin: 10px;
+  width: 250px;
 }
 
 .info-wrapper {
