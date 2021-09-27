@@ -91,17 +91,17 @@ function infoToTrophy(category, trophyInfo) {
   if (trophyInfo.length === 1) {
     let trophy = trophyInfo[0];
     trophyTemplate = `
-    <img src="/img/icons/trophy${trophySuffix[trophy]}.svg" width="40" />`;
+    <img src="./img/icons/trophy${trophySuffix[trophy]}.svg" width="40" />`;
   } else {
     let trophy1 = trophyInfo[0];
     let trophy2 = trophyInfo[1];
     let leftToSolve = trophyInfo[2];
     trophyTemplate = `
-    <img src="/img/icons/trophy${trophySuffix[trophy1]}.svg" width="40" />
+    <img src="./img/icons/trophy${trophySuffix[trophy1]}.svg" width="40" />
       <div class="trophy-number">
         ${leftToSolve} 🡒
       </div>
-    <img src="/img/icons/trophy${trophySuffix[trophy2]}.svg" width="40" />`;
+    <img src="./img/icons/trophy${trophySuffix[trophy2]}.svg" width="40" />`;
   }
 
   let trophyCardTemplate = `
@@ -140,7 +140,7 @@ function simpleTrophyElement(trophy) {
   let newNode = document.createElement("div");
   newNode.innerHTML = `
   <div class="trophy-card-compare">
-    <img src="/img/icons/trophy${trophySuffix[trophy]}.svg" width="50" />
+    <img src="./img/icons/trophy${trophySuffix[trophy]}.svg" width="50" />
   </div>`;
   let trophyElementNode = newNode.firstElementChild;
   return trophyElementNode;
