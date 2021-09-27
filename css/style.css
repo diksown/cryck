@@ -24,16 +24,7 @@ body {
   font-size: 20px;
 }
 
-/* .content-wrapper {
-  width: 100%;
-} */
-
-/* .content-wrapper > * {
-  margin: 10px 20px;
-} */
-
 .navbar {
-  font-size: 23px;
   position: sticky;
   top: 0;
   margin: 0px;
@@ -45,19 +36,23 @@ body {
 
 .material-icons,
 .material-icons-outlined {
-  vertical-align: middle;
+  vertical-align: bottom;
 }
 
 .navbar a {
   color: white;
   border-radius: 3px;
   text-decoration: none;
-  padding: 8px;
+  padding: 8px 13px;
 }
 
 .navbar a:hover {
   background-color: var(--bg-fade-color);
   border-radius: 10px;
+}
+
+.navbar-title {
+  font-weight: bolder;
 }
 
 .input-user {
@@ -108,6 +103,8 @@ body {
 }
 
 .challenges-table {
+  /* having some problems with the width of the table... */
+  /* width: 1000px; */
   background-color: var(--card-color);
   margin: 3px;
   border-spacing: 20px;
