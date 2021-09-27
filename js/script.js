@@ -1,11 +1,15 @@
+// change datatable defaults
 $.extend($.fn.dataTable.defaults, {
   searching: false,
   paging: false,
   info: false,
 });
 
+// workaround for now, but works 99.98% of the time
+const userAllChalls = "hellman";
+
 // hardcoded, I know. but this is the only way
-//I could thought of getting them ordered.
+// I could thought of getting them ordered.
 const categories = [
   "Introduction",
   "General",
@@ -49,21 +53,23 @@ function addChallRow(chall, tableId) {
 // add a list of challs to a table.
 function displayChallList(challs, tableId) {
   let t = $("#" + tableId).DataTable();
-  t.clear();
   for (let chall of challs) {
     addChallRow(chall, tableId);
   }
+  t.draw();
 }
 
 // display challs a user hasn't solved to a table
 function displayUnsolvedFromUser(challs, allChalls, tableId) {
+  let t = $("#" + tableId).DataTable();
+  t.clear();
   let diffChalls = diffSolves(allChalls, challs);
   let unsolvedChalls = diffChalls[0];
   displayChallList(unsolvedChalls, tableId);
 }
 
 // return a string with a trophy template.
-// trophyInfo is either [trophy] or [trophy1, trophy2, leftToSolve]
+// trophyInfo is either [trophy] or [trophy1, trophy2, leftToSolve].
 function infoToTrophy(category, trophyInfo) {
   let trophyTemplate;
   let trophySuffix = {
@@ -103,11 +109,31 @@ function infoToTrophy(category, trophyInfo) {
 }
 
 // return a trophy DOM element with the given parameters
-// I think life would be easier if we used some js framework
+// I think life would be easier if we used some js framework...
 function trophyElement(category, trophyInfo) {
   // string to element. best way I could find.
   let newNode = document.createElement("div");
   newNode.innerHTML = infoToTrophy(category, trophyInfo);
+  let trophyElementNode = newNode.firstElementChild;
+  return trophyElementNode;
+}
+
+// same as trophyElement function, but with a simpler interface
+function simpleTrophyElement(trophy) {
+  let trophySuffix = {
+    e: "", // empty trophy
+    b: "-bronze", // bronze
+    s: "-silver", // silver
+    g: "-gold", // gold
+    r: "-golder", // golder
+  };
+
+  // string to element. best way I could find.
+  let newNode = document.createElement("div");
+  newNode.innerHTML = `
+  <div class="trophy-card-compare">
+    <img src="/img/icons/trophy${trophySuffix[trophy]}.svg" width="50" />
+  </div>`;
   let trophyElementNode = newNode.firstElementChild;
   return trophyElementNode;
 }
@@ -126,8 +152,7 @@ function currentTrophy(noSolved, totalChalls) {
 // get the number of solved and the total number of challs
 // in the category. if all were solved, return a array only
 // with the star trophy. else, return a array with the current
-// trophy, the number of challs needed to go to the next trophy
-// and the next trophy.
+// trophy, the next trophy and the number of challs needed to go to the next trophy
 function trophyStats(noSolved, totalChalls) {
   let curTrophy = currentTrophy(noSolved, totalChalls);
   if (curTrophy === "r") return [curTrophy];
@@ -153,7 +178,7 @@ function solvedCount(challs) {
   return categoryCount;
 }
 
-// return a trophy list with all trophy stats from a user.
+// return a trophy element list with all trophy stats from a user.
 function trophyRoad(challs, allChalls) {
   let categoryCount = solvedCount(challs);
   let categoryTotal = solvedCount(allChalls);
@@ -172,6 +197,7 @@ function addTrophy(trophy, boardId) {
   trophyHolder.appendChild(trophy);
 }
 
+// display all trophies, evaluated from the `challs` list, to a board.
 function displayTrophies(challs, allChalls, boardId) {
   let trophyHolder = document.getElementById(boardId);
   trophyHolder.innerHTML = "";
@@ -181,6 +207,25 @@ function displayTrophies(challs, allChalls, boardId) {
   }
 }
 
+// does <essentially> the same thing as the displayTrophies function,
+// but with a simpler interface, as it is just for comparison purposes.
+function displayComparisonTrophies(challs, allChalls, boardId) {
+  let trophyHolder = document.getElementById(boardId);
+  trophyHolder.innerHTML = "";
+  let categoryCount = solvedCount(challs);
+  let categoryTotal = solvedCount(allChalls);
+  let trophies = [];
+  for (let category of categories) {
+    curTrophy = currentTrophy(categoryCount[category], categoryTotal[category]);
+    curTrophyElement = simpleTrophyElement(curTrophy);
+    trophies.push(curTrophyElement);
+  }
+  for (let trophy of trophies) {
+    addTrophy(trophy, boardId);
+  }
+}
+
+// main function of index.html page.
 async function fetchAndDisplayStats(
   username,
   trophyId = "tb",
@@ -202,4 +247,34 @@ async function fetchAndDisplayStats(
   displayTrophies(challs, allChalls, trophyId);
   displayUnsolvedFromUser(challs, allChalls, challId);
   // change chart wrappers to put the user name
+}
+
+async function fetchAndDisplayComparison(
+  username1,
+  username2,
+  trophyId = "trophies",
+  challId = "exclusive-challs-",
+  trophyChartId,
+  challChartId
+) {
+  // check for errors in the next three lines
+  let user1Info = await getInfo(username1);
+  let user2Info = await getInfo(username2);
+  let userAllChallsInfo = await getInfo(userAllChalls);
+
+  let challs1 = user1Info.solved_challenges;
+  let challs2 = user2Info.solved_challenges;
+  let allChalls = userAllChallsInfo.solved_challenges;
+
+  let name1 = user1Info.username;
+  let name2 = user2Info.username;
+
+  displayComparisonTrophies(challs1, allChalls, trophyId + "1");
+  displayComparisonTrophies(challs2, allChalls, trophyId + "2");
+
+  let xSolved = diffSolves(challs1, challs2);
+
+  for (let i = 1; i <= 2; i++) {
+    displayChallList(xSolved[i - 1], challId + i.toString());
+  }
 }
