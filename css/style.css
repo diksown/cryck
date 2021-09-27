@@ -72,7 +72,7 @@ body {
 
 .trophy-board {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   flex-wrap: wrap;
   max-width: 800px;
   /* margin: 0 auto; */
@@ -109,7 +109,13 @@ body {
   margin: 3px;
   border-spacing: 20px;
   border-radius: 10px;
-  max-width: 800px;
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
 }
 
 @media screen and (max-width: 600px) {
@@ -118,13 +124,9 @@ body {
   .challenges-table tr th:nth-child(2) {
     display: none;
   }
-}
-
-.input-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* flex-direction: column; */
+  .input-wrapper {
+    flex-direction: column;
+  }
 }
 
 .chart-name {
@@ -142,4 +144,19 @@ body {
 .compare-wrapper {
   display: flex;
   flex-wrap: wrap;
+}
+
+.trophy-case-compare {
+  max-width: 350px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.trophy-card-compare {
+  /* background-color: var(--card-color); */
+  padding: 5px;
+  font-size: 14px;
+  border-radius: 7px;
+  margin: 3px;
 }

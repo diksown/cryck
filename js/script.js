@@ -1,3 +1,9 @@
+$.extend($.fn.dataTable.defaults, {
+  searching: false,
+  paging: false,
+  info: false,
+});
+
 // return a promise of info for a particular user
 async function getInfo(username) {
   let baseUrl = "https://cryptohack.org/api/user/";
@@ -16,11 +22,6 @@ async function diffSolves(user1, user2) {
   solvedChalls1 = await getSolved(user1);
   solvedChalls2 = await getSolved(user2);
 
-  if (!solvedChalls2) {
-    clearTable();
-    return;
-  }
-
   solvedNames1 = solvedChalls1.map((data) => data.name);
   solvedNames2 = solvedChalls2.map((data) => data.name);
 
@@ -28,13 +29,13 @@ async function diffSolves(user1, user2) {
   xSolved1 = solvedChalls1.filter(
     (chall) => !solvedNames2.includes(chall.name)
   );
-  /* 
+
   // solved only by user 2
   xSolved2 = solvedChalls2.filter(
     (chall) => !solvedNames1.includes(chall.name)
   );
-  */
-  return xSolved1;
+
+  return [xSolved1, xSolved2];
 }
 
 function createChallNameLink(chall) {
@@ -62,10 +63,7 @@ function createChallNameLink(chall) {
   return a;
 }
 
-function clearTable() {
-  document.getElementById("challs-table-content").innerHTML = "";
-}
-
+// generate a random chall. useful for testing.
 function randomChall() {
   let categories = [
     "Introduction",
@@ -79,44 +77,8 @@ function randomChall() {
     "Crypto on the Web",
     "Misc",
   ];
-  let adjs = [
-    "Portly",
-    "Posh",
-    "Positive",
-    "Possible",
-    "Potable",
-    "Powerful",
-    "Powerless",
-    "Practical",
-    "Precious",
-    "Present",
-    "Prestigious",
-    "Pretty",
-    "Precious",
-    "Previous",
-    "Pricey",
-  ];
-  let nouns = [
-    "Paper",
-    "Paperback",
-    "Parade",
-    "Parallelogram",
-    "Parcel",
-    "Parent",
-    "Parentheses",
-    "Park",
-    "Parrot",
-    "Parsnip",
-    "Part",
-    "Particle",
-    "Partner",
-    "Partridge",
-    "Party",
-    "Passbook",
-    "Passenger",
-    "Passive",
-    "Pasta",
-  ];
+  let adjs = ["Portly", "Posh", "Positive", "Possible", "Potable"];
+  let nouns = ["Paper", "Paperback", "Parade", "Parallelogram", "Parcel"];
   let name =
     adjs[Math.floor(Math.random() * adjs.length)] +
     " " +
@@ -135,78 +97,69 @@ function randomChall() {
   };
 }
 
+// add a chall to a table.
 function addChallRow(chall, tableId) {
-  let table = document.getElementById(tableId).getElementsByTagName("tbody")[0];
-  let row = table.insertRow();
-
-  let challName = row.insertCell();
-  let category = row.insertCell();
-  let points = row.insertCell();
-  let solves = row.insertCell();
-
-  let a = createChallNameLink(chall);
-  challName.appendChild(a);
-  challName.innerHTML = chall.name;
-  category.innerHTML = chall.category;
-  points.innerHTML = chall.points;
-  solves.innerHTML = chall.solves;
+  let t = $("#" + tableId).DataTable();
+  t.row.add([chall.name, chall.category, chall.points, chall.solves]).draw();
 }
 
-async function displayChallList(challs) {
-  if (challs) {
-    clearTable();
-    challs = challs.sort((a, b) => {
-      diff = parseInt(a.points) - parseInt(b.points);
-      return diff;
-    });
-    for (let chall of challs) {
-      addChallRow(chall);
-    }
+// add a list of challs to a table.
+function displayChallList(challs, tableId) {
+  let t = $("#" + tableId).DataTable();
+  t.clear();
+  for (let chall of challs) {
+    addChallRow(chall, tableId);
   }
 }
 
-async function displayChallsFromUser(username) {
-  challList = await getSolved(username);
-  displayChallList(challList);
+// display challs a user hasn't solved to a table
+async function displayUnsolvedFromUser(username, tableId) {
+  // workaround for now, but correct 99.98% of the time
+  let userAllChalls = "hellman";
+  let unsolvedChalls = await diffSolves(userAllChalls, username)[0];
+  displayChallList(unsolvedChalls, tableId);
 }
 
-async function displayExclusiveChalls(user1, user2) {
-  challList = await diffSolves(user1, user2);
-  displayChallList(challList);
+// display exclusive challs from each of the two users in each table.
+async function displayExclusiveChalls(user1, tableId1, user2, tableId2) {
+  let challsFrom2Users = await diffSolves(user1, user2);
+  let challList1 = challsFrom2Users[0];
+  let challList2 = challsFrom2Users[1];
+  displayChallList(challList1, tableId1);
+  displayChallList(challList2, tableId2);
 }
-/*
-let userInput = document.getElementById("username-input");
 
-userInput.addEventListener("keyup", (event) => {
-  if (event.key === "Enter") {
-    let user = document.getElementById("username-input").value;
-    // workaround for now, but correct 99.98% of the time
-    let userAllChalls = "hellman";
-    displayExclusiveChalls(userAllChalls, user);
-  }
-});
-*/
-
-// return a string with a trophy template
+// return a string with a trophy template.
+// the trophy2 and leftToSolve are optional,
+// if they aren't provided, only trophy1 is displayed.
 function infoToTrophy(category, trophy1, trophy2, leftToSolve) {
-  let trophyTemplate = `
+  let trophyTemplate;
+  if (trophy2 === undefined) {
+    trophyTemplate = `
+    <img src="/img/icons/trophy${trophy1}.svg" width="40" />`;
+  } else {
+    trophyTemplate = `
+    <img src="/img/icons/trophy${trophy1}.svg" width="40" />
+      <div class="trophy-number">
+        ${leftToSolve} 🡒
+      </div>
+    <img src="/img/icons/trophy${trophy2}.svg" width="40" />`;
+  }
+
+  let trophyCardTemplate = `
   <div class="trophy-card">
     <div class="trophy-category">
       ${category}
     </div>
     <div class="trophy-content">
-      <img src="/img/icons/trophy${trophy1}.svg" width="40" />
-      <div class="trophy-number">
-        ${leftToSolve} 🡒
-      </div>
-      <img src="/img/icons/trophy${trophy2}.svg" width="40" />
+      ${trophyTemplate}
     </div>
   </div>`;
-  return trophyTemplate;
+  return trophyCardTemplate;
 }
 
 // return a trophy DOM element with the given parameters
-// I think life would be easier if it was some js framework
+// I think life would be easier if we used some js framework
 function trophyElement(category, t1, t2, leftToSolve) {
   trophySuffix = {
     e: "", // empty trophy
@@ -226,6 +179,7 @@ function trophyElement(category, t1, t2, leftToSolve) {
   return trophyElementNode;
 }
 
+// generates a random trophy. useful for mocking.
 function randomTrophy() {
   let tList = ["e", "b", "s", "g", "r"];
   let categories = [
@@ -246,22 +200,3 @@ function randomTrophy() {
   let category = categories[Math.floor(Math.random() * categories.length)];
   return trophyElement(category, t1, t2, toSolve);
 }
-
-trophyHolder = document.getElementById("tb");
-for (let i = 0; i < 10; i++) {
-  trophyHolder.appendChild(randomTrophy());
-}
-
-$.extend($.fn.dataTable.defaults, {
-  searching: false,
-  paging: false,
-  info: false,
-});
-
-for (let i = 0; i < 10; i++) {
-  addChallRow(randomChall(), "ct");
-}
-
-$(document).ready(function () {
-  $("#ct").DataTable();
-});
