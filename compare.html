@@ -56,37 +56,46 @@
       </div>
     </div>
     <div class="content-wrapper">
+      <div class="input-wrapper">
+        <input
+          class="input-user"
+          id="username1"
+          placeholder="cryptohack user 1"
+          spellcheck="false"
+          type="text"
+          autocomplete="off"
+        />
+        <input
+          class="input-user"
+          id="username2"
+          placeholder="cryptohack user 2"
+          spellcheck="false"
+          autocomplete="off"
+        />
+        <button class="button-submit" type="submit" id="btn">
+          <span class="material-icons" id="search-icon"> visibility </span>
+        </button>
+      </div>
       <div class="info-wrapper">
-        <div class="input-wrapper">
-          <input
-            class="input-user"
-            id="username1"
-            placeholder="cryptohack user 1"
-            spellcheck="false"
-          />
-          <input
-            class="input-user"
-            id="username2"
-            placeholder="cryptohack user 2"
-            spellcheck="false"
-          />
-          <button id="btn" type="submit">
-            <span class="material-icons"> visibility </span>
-          </button>
-        </div>
         <div class="compare-wrapper">
           <div class="chart-wrapper">
-            <div class="chart-name">Trophies from user 1</div>
+            <div class="chart-name">
+              Trophies from <span class="user-name-1">user1</span>
+            </div>
             <div id="trophies1" class="trophy-case-compare"></div>
           </div>
           <div class="chart-wrapper">
-            <div class="chart-name">Trophies from user 2</div>
+            <div class="chart-name">
+              Trophies from <span class="user-name-2">user2</span>
+            </div>
             <div id="trophies2" class="trophy-case-compare"></div>
           </div>
         </div>
         <div class="compare-wrapper">
           <div class="chart-wrapper">
-            <div class="chart-name">Solved only by user 1</div>
+            <div class="chart-name">
+              Solved only by <span class="user-name-1">user1</span>
+            </div>
             <table
               id="exclusive-challs-1"
               class="challenges-table row-border stripe"
@@ -115,7 +124,9 @@
             </table>
           </div>
           <div class="chart-wrapper">
-            <div class="chart-name">Solved only by user 2</div>
+            <div class="chart-name">
+              Solved only by <span class="user-name-2">user2</span>
+            </div>
             <table
               id="exclusive-challs-2"
               class="challenges-table row-border stripe"

@@ -225,16 +225,17 @@ function displayComparisonTrophies(challs, allChalls, boardId) {
   }
 }
 
+function showClass(classToShow = "info-wrapper") {
+  elementsToShow = document.getElementsByClassName(classToShow);
+  for (let element of elementsToShow) {
+    element.style.display = "flex";
+  }
+}
+
 // main function of index.html page.
-async function fetchAndDisplayStats(
-  username,
-  trophyId = "tb",
-  challId = "ct",
-  trophyChartId,
-  challChartId
-) {
-  // workaround for now, but works 99.98% of the time
-  let userAllChalls = "hellman";
+async function fetchAndDisplayStats(username, trophyId = "tb", challId = "ct") {
+  let searchIcon = document.getElementById("search-icon");
+  searchIcon.classList.add("spinning");
 
   // check for errors in the next two lines
   let userInfo = await getInfo(username);
@@ -247,6 +248,9 @@ async function fetchAndDisplayStats(
   displayTrophies(challs, allChalls, trophyId);
   displayUnsolvedFromUser(challs, allChalls, challId);
   // change chart wrappers to put the user name
+
+  searchIcon.classList.remove("spinning");
+  showClass();
 }
 
 async function fetchAndDisplayComparison(
@@ -254,9 +258,11 @@ async function fetchAndDisplayComparison(
   username2,
   trophyId = "trophies",
   challId = "exclusive-challs-",
-  trophyChartId,
-  challChartId
+  nameReplace = "user-name-"
 ) {
+  let searchIcon = document.getElementById("search-icon");
+  searchIcon.classList.add("spinning");
+
   // check for errors in the next three lines
   let user1Info = await getInfo(username1);
   let user2Info = await getInfo(username2);
@@ -266,8 +272,7 @@ async function fetchAndDisplayComparison(
   let challs2 = user2Info.solved_challenges;
   let allChalls = userAllChallsInfo.solved_challenges;
 
-  let name1 = user1Info.username;
-  let name2 = user2Info.username;
+  let names = [user1Info.username, user2Info.username];
 
   displayComparisonTrophies(challs1, allChalls, trophyId + "1");
   displayComparisonTrophies(challs2, allChalls, trophyId + "2");
@@ -276,5 +281,13 @@ async function fetchAndDisplayComparison(
 
   for (let i = 1; i <= 2; i++) {
     displayChallList(xSolved[i - 1], challId + i.toString());
+    elementsToReplace = document.getElementsByClassName(
+      nameReplace + i.toString()
+    );
+    for (let toReplace of elementsToReplace) {
+      toReplace.innerText = names[i - 1];
+    }
   }
+  searchIcon.classList.remove("spinning");
+  showClass();
 }

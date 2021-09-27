@@ -24,13 +24,13 @@ body {
   font-size: 20px;
 }
 
-.content-wrapper {
+/* .content-wrapper {
   width: 100%;
-}
+} */
 
-.content-wrapper > * {
+/* .content-wrapper > * {
   margin: 10px 20px;
-}
+} */
 
 .navbar {
   font-size: 23px;
@@ -66,7 +66,8 @@ body {
 }
 
 .info-wrapper {
-  display: flex;
+  /* display: flex; */
+  display: none;
   flex-direction: column;
   align-items: center;
 }
@@ -161,4 +162,24 @@ body {
   font-size: 14px;
   border-radius: 7px;
   margin: 3px;
+}
+
+.rounded {
+  border-radius: 10%;
+}
+
+.spinning {
+  animation-name: spin;
+  animation-duration: 700ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
