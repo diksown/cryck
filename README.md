@@ -21,5 +21,4 @@ Simply go to [dikson.xyz/cryck](https://dikson.xyz/cryck/) :)
 
 ## 👁️‍🗨️ Contribution
 
-This tool is in development. If you have feedback to give, feel free to submit an issue.
-Want to contribute, but out of ideas? Check our [issues](https://github.com/diksown/cryck/issues) page!
+This tool is in development. Have feedback to give? Want to contribute, but out of ideas? Check our [issues](https://github.com/diksown/cryck/issues) page!
