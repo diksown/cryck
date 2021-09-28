@@ -99,7 +99,7 @@ function infoToTrophy(category, trophyInfo) {
     trophyTemplate = `
     <img src="./img/icons/trophy${trophySuffix[trophy1]}.svg" width="40" />
       <div class="trophy-number">
-        ${leftToSolve} 🡒
+        ${leftToSolve} ->
       </div>
     <img src="./img/icons/trophy${trophySuffix[trophy2]}.svg" width="40" />`;
   }
