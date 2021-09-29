@@ -134,12 +134,26 @@ body {
   background-color: var(--card-color);
   margin: 3px;
   border-spacing: 20px;
-  border-radius: 10px;
+  /* border-radius: 10px; */
+  border-collapse: collapse;
 }
 
 .challenges-table th {
   cursor: pointer;
   white-space: nowrap;
+}
+
+.challenges-table th,
+.challenges-table td {
+  padding: 15px 20px;
+}
+
+.even {
+  background: var(--card-color);
+}
+
+.odd {
+  background: var(--chart-color);
 }
 
 .input-wrapper {
