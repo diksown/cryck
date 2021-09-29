@@ -3,6 +3,7 @@ $.extend($.fn.dataTable.defaults, {
   searching: false,
   paging: false,
   info: false,
+  order: [[3, "desc"]],
 });
 
 // workaround for now, but works 99.98% of the time

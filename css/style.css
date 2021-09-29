@@ -8,6 +8,7 @@
   --bg-fade-color: rgb(23, 20, 66);
   --chart-color: rgb(30, 30, 68);
   --card-color: rgb(38, 38, 75);
+  --text-color: white;
 }
 
 * {
@@ -21,7 +22,7 @@ body {
 }
 
 body {
-  color: white;
+  color: var(--text-color);
   display: flex;
   flex-direction: column;
   font-family: Inter, sans-serif;
@@ -40,7 +41,7 @@ body {
 }
 
 .footer a {
-  color: white;
+  color: var(--text-color);
   text-decoration: none;
 }
 
@@ -60,7 +61,7 @@ body {
 }
 
 .navbar a {
-  color: white;
+  color: var(--text-color);
   border-radius: 3px;
   text-decoration: none;
   padding: 8px 13px;
@@ -123,6 +124,8 @@ body {
 .challenges-table {
   /* having some problems with the width of the table... */
   /* width: 1000px; */
+  flex-grow: 1;
+  font-size: 18px;
   background-color: var(--card-color);
   margin: 3px;
   border-spacing: 20px;
@@ -131,6 +134,7 @@ body {
 
 .challenges-table th {
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .input-wrapper {
@@ -157,6 +161,8 @@ body {
 }
 
 .chart-wrapper {
+  display: flex;
+  flex-direction: column;
   background-color: var(--chart-color);
   padding: 0 5px 5px;
   margin: 10px 10px;
@@ -185,7 +191,7 @@ body {
 
 .spinning {
   animation-name: spin;
-  animation-duration: 700ms;
+  animation-duration: 600ms;
   animation-iteration-count: infinite;
   animation-timing-function: linear;
 }
