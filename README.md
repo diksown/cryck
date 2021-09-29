@@ -15,7 +15,7 @@
 
 ## 🛠️ Utilization
 
-Simply go to [dikson.xyz/cryck](https://dikson.xyz/cryck/)
+Simply go to [dikson.xyz/cryck](https://dikson.xyz/cryck/)!
 
 ![](img/cryck.gif)
 
