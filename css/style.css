@@ -82,6 +82,11 @@ body {
   width: 250px;
 }
 
+.input-user:focus-visible {
+  outline-width: 2px;
+  outline-style: groove;
+}
+
 .info-wrapper {
   display: none;
   flex-direction: column;
