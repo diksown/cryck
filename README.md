@@ -1,4 +1,4 @@
-# [Cryck](https://dikson.xyz/cryck/)
+# [Cryck](https://cryck.dikson.xyz/)
 
 ## 👁️ About
 
@@ -15,7 +15,7 @@
 
 ## 🛠️ Utilization
 
-Simply go to [dikson.xyz/cryck](https://dikson.xyz/cryck/)!
+Simply go to [cryck.dikson.xyz/](https://cryck.dikson.xyz/)!
 
 ![](img/cryck.gif)
 
