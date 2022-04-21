@@ -1,8 +1,8 @@
-# [Cryck](https://cryck.dikson.xyz/)
+# [Cryck](https://cryck.dikson.xyz)
 
 ## 👁️ About
 
-[Cryck](https://dikson.xyz/cryck/) is a tool that uses the [<b>Cry</b>ptoHa<b>ck</b>](https://cryptohack.org/) API to help you decide about what's the next challenge on your solving list and compare other users!
+[Cryck](https://dikson.xyz/cryck) is a tool that uses the [<b>Cry</b>ptoHa<b>ck</b>](https://cryptohack.org/) API to help you decide about what's the next challenge on your solving list and compare other users!
 
 ## 👀 Features
 
@@ -15,7 +15,7 @@
 
 ## 🛠️ Utilization
 
-Simply go to [cryck.dikson.xyz/](https://cryck.dikson.xyz/)!
+Simply go to [cryck.dikson.xyz](https://cryck.dikson.xyz)!
 
 ![](img/cryck.gif)
 
