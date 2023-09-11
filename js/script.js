@@ -7,7 +7,7 @@ $.extend($.fn.dataTable.defaults, {
 });
 
 // workaround for now, but works 99.98% of the time
-const userAllChalls = "hellman";
+const userAllChalls = "y011d4";
 
 // hardcoded, I know. but this is the only way
 // I could thought of getting them ordered.
@@ -22,6 +22,7 @@ const categories = [
   "Hash Functions",
   "Crypto on the Web",
   "Misc",
+  "CTF Archive"
 ];
 
 // return a promise of info for a particular user
