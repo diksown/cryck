@@ -35,6 +35,9 @@ async function getInfo(username) {
   let response = await fetch(baseUrl + username + "/");
   let info = await response.json();
   if (info.hasOwnProperty("username")) {
+    info.solved_challenges = info.solved_challenges.filter(
+      (chall) => chall.category !== "CTF Archive"
+    );
     return info;
   } else {
     throw "User not found.";
