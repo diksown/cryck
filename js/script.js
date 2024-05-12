@@ -21,8 +21,8 @@ const categories = [
   "Elliptic Curves",
   "Hash Functions",
   "Crypto on the Web",
+  "Post-Quantum",
   "Misc",
-  "CTF Archive"
 ];
 
 // return a promise of info for a particular user
