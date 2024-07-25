@@ -66,6 +66,12 @@ function addChallRow(chall, tableId) {
   t.row.add([chall.name, chall.category, chall.points, chall.solves]).draw();
 }
 
+// update table title with unsolved challs count
+function displayUnsolvedChallsTitle(challsLen, tableTitleId) {
+  let t = $("#" + tableTitleId)
+  t.text(`${challsLen} Unsolved Challenges`);
+}
+
 // add a list of challs to a table.
 function displayChallList(challs, tableId) {
   let t = $("#" + tableId).DataTable();
@@ -77,10 +83,11 @@ function displayChallList(challs, tableId) {
 }
 
 // display challs a user hasn't solved to a table
-function displayUnsolvedFromUser(challs, allChalls, tableId) {
+function displayUnsolvedFromUser(challs, allChalls, tableId, tableTitleId) {
   let diffChalls = diffSolves(allChalls, challs);
   let unsolvedChalls = diffChalls[0];
   displayChallList(unsolvedChalls, tableId);
+  displayUnsolvedChallsTitle(unsolvedChalls.length, tableTitleId)
 }
 
 // return a string with a trophy template.
@@ -263,7 +270,7 @@ function clearError(errorClass = "input-user") {
 }
 
 // main function of index.html page.
-async function fetchAndDisplayStats(username, trophyId = "tb", challId = "ct") {
+async function fetchAndDisplayStats(username, trophyId = "tb", challId = "ct", challTitleId = "uc") {
   let searchIcon = document.getElementById("search-icon");
   searchIcon.classList.add("spinning");
   let userInfo, userAllChallsInfo;
@@ -286,7 +293,7 @@ async function fetchAndDisplayStats(username, trophyId = "tb", challId = "ct") {
 
   let name = userInfo.username;
   displayTrophies(challs, allChalls, trophyId);
-  displayUnsolvedFromUser(challs, allChalls, challId);
+  displayUnsolvedFromUser(challs, allChalls, challId, challTitleId);
   // change chart wrappers to put the user name
 
   searchIcon.classList.remove("spinning");
@@ -336,7 +343,7 @@ async function fetchAndDisplayComparison(
       nameReplace + i.toString()
     );
     for (let toReplace of elementsToReplace) {
-      toReplace.innerText = names[i - 1];
+      toReplace.innerText = `${names[i - 1]} (${xSolved[i - 1].length})`;
     }
   }
   searchIcon.classList.remove("spinning");
